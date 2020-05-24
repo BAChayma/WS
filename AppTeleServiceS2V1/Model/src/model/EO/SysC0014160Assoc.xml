@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Association SYSTEM "jbo_03_01.dtd">
+<!---->
+<Association
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SysC0014160Assoc"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <AssociationEnd
+    Name="ImpotEO"
+    Cardinality="1"
+    Source="true"
+    Owner="model.EO.ImpotEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="ImpotEO"/>
+      <Attr Name="_foreignKey" Value="model.EO.ImpotEO.SysC0014129"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.ImpotEO.Kimpot"/>
+    </AttrArray>
+  </AssociationEnd>
+  <AssociationEnd
+    Name="DeclarationEO"
+    Cardinality="-1"
+    Owner="model.EO.DeclarationEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="DeclarationEO"/>
+      <Attr Name="_foreignKey" Value="model.EO.DeclarationEO.SysC0014160"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.DeclarationEO.Kimpot"/>
+    </AttrArray>
+  </AssociationEnd>
+</Association>

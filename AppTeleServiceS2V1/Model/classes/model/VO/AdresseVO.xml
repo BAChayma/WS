@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="AdresseVO"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  SelectListFlags="1"
+  FromListFlags="1"
+  WhereFlags="1"
+  BindingStyle="OracleName"
+  CustomQuery="false"
+  SelectAllAttributes="false"
+  PageIterMode="Full">
+  <EntityUsage
+    Name="AdresseEO"
+    Entity="model.EO.AdresseEO"/>
+  <ViewAttribute
+    Name="Kadresse"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Kadresse"
+    EntityUsage="AdresseEO"
+    AliasName="KADRESSE">
+    <TransientExpression
+      trustMode="untrusted"><![CDATA[(new oracle.jbo.server.SequenceImpl("AdresseSeq",adf.object.getDBTransaction())).getSequenceNumber()]]></TransientExpression>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Numrue"
+    PrecisionRule="true"
+    EntityAttrName="Numrue"
+    EntityUsage="AdresseEO"
+    AliasName="NUMRUE"/>
+  <ViewAttribute
+    Name="Rue"
+    PrecisionRule="true"
+    EntityAttrName="Rue"
+    EntityUsage="AdresseEO"
+    AliasName="RUE"/>
+  <ViewAttribute
+    Name="Cp"
+    PrecisionRule="true"
+    EntityAttrName="Cp"
+    EntityUsage="AdresseEO"
+    AliasName="CP"/>
+  <ViewAttribute
+    Name="Kstructureadr"
+    PrecisionRule="true"
+    EntityAttrName="Kstructureadr"
+    EntityUsage="AdresseEO"
+    AliasName="KSTRUCTUREADR"/>
+  <ViewAttribute
+    Name="Kcnc"
+    PrecisionRule="true"
+    EntityAttrName="Kcnc"
+    EntityUsage="AdresseEO"
+    AliasName="KCNC"/>
+  <ViewAttribute
+    Name="Kper"
+    PrecisionRule="true"
+    EntityAttrName="Kper"
+    EntityUsage="AdresseEO"
+    AliasName="KPER"/>
+  <ViewLinkAccessor
+    Name="AgenceVO"
+    ViewLink="model.VO.SysC0014189Link"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="BanqueVO"
+    ViewLink="model.VO.SysC0014185Link"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+</ViewObject>

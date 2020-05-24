@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE AppModule SYSTEM "jbo_03_01.dtd">
+<!---->
+<AppModule
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="ImpotAM"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  ClearCacheOnRollback="true">
+  <ViewUsage
+    Name="ImpotVO1"
+    ViewObjectName="model.VO.ImpotVO"/>
+  <ViewUsage
+    Name="DeclarationVO1"
+    ViewObjectName="model.VO.DeclarationVO"/>
+  <ViewLinkUsage
+    Name="SysC0014160Link"
+    ViewLinkObjectName="model.VO.SysC0014160Link"
+    SrcViewUsageName="model.AM.ImpotAM.ImpotVO1"
+    DstViewUsageName="model.AM.ImpotAM.DeclarationVO1"
+    Reversed="false"/>
+</AppModule>

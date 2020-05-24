@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Association SYSTEM "jbo_03_01.dtd">
+<!---->
+<Association
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SysC0014143Assoc"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <AssociationEnd
+    Name="TypestructureadrEO"
+    Cardinality="1"
+    Source="true"
+    Owner="model.EO.TypestructureadrEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="TypestructureadrEO"/>
+      <Attr Name="_foreignKey" Value="model.EO.TypestructureadrEO.SysC0014135"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.TypestructureadrEO.Ktstructureadr"/>
+    </AttrArray>
+  </AssociationEnd>
+  <AssociationEnd
+    Name="StructureadrEO"
+    Cardinality="-1"
+    Owner="model.EO.StructureadrEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="StructureadrEO"/>
+      <Attr Name="_foreignKey" Value="model.EO.StructureadrEO.SysC0014143"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.StructureadrEO.Ktstructureadr"/>
+    </AttrArray>
+  </AssociationEnd>
+</Association>

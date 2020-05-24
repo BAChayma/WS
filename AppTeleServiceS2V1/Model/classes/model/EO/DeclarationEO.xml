@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Entity SYSTEM "jbo_03_01.dtd">
+<!---->
+<Entity
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="DeclarationEO"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  DBObjectType="table"
+  DBObjectName="DECLARATION"
+  AliasName="DeclarationEO"
+  BindingStyle="OracleName">
+  <Attribute
+    Name="Kdcl"
+    IsNotNull="true"
+    ColumnName="KDCL"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="DECLARATION"
+    PrimaryKey="true"/>
+  <Attribute
+    Name="Kcnc"
+    ColumnName="KCNC"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="DECLARATION"/>
+  <Attribute
+    Name="Kimpot"
+    ColumnName="KIMPOT"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="DECLARATION"/>
+  <Attribute
+    Name="Mantantdeclarer"
+    ColumnName="MANTANTDECLARER"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="DECLARATION"/>
+  <Attribute
+    Name="Mantantdeclaration"
+    ColumnName="MANTANTDECLARATION"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="DECLARATION"/>
+  <Attribute
+    Name="Datedcl"
+    IsNotNull="true"
+    ColumnName="DATEDCL"
+    SQLType="TIMESTAMPTZ"
+    Type="oracle.jbo.domain.TimestampTZ"
+    ColumnType="TIMESTAMP WITH TIME ZONE"
+    TableName="DECLARATION"/>
+  <AccessorAttribute
+    Name="ContribuableEO"
+    Association="model.EO.SysC0014159Assoc"
+    AssociationEnd="model.EO.SysC0014159Assoc.ContribuableEO"
+    AssociationOtherEnd="model.EO.SysC0014159Assoc.DeclarationEO"
+    Type="oracle.jbo.server.EntityImpl"
+    IsUpdateable="true"/>
+  <AccessorAttribute
+    Name="ImpotEO"
+    Association="model.EO.SysC0014160Assoc"
+    AssociationEnd="model.EO.SysC0014160Assoc.ImpotEO"
+    AssociationOtherEnd="model.EO.SysC0014160Assoc.DeclarationEO"
+    Type="oracle.jbo.server.EntityImpl"
+    IsUpdateable="true"/>
+  <AccessorAttribute
+    Name="PaiementEO"
+    Association="model.EO.SysC0014167Assoc"
+    AssociationEnd="model.EO.SysC0014167Assoc.PaiementEO"
+    AssociationOtherEnd="model.EO.SysC0014167Assoc.DeclarationEO"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <Key
+    Name="SysC0014158"
+    PrimaryKey="true">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="SYS_C0014158"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.DeclarationEO.Kdcl"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="SysC0014159">
+    <DesignTime>
+      <Attr Name="_referencedKey" Value="SYS_C0014151"/>
+      <Attr Name="_isForeign" Value="true"/>
+      <Attr Name="_DBObjectName" Value="SYS_C0014159"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.DeclarationEO.Kcnc"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="SysC0014160">
+    <DesignTime>
+      <Attr Name="_referencedKey" Value="SYS_C0014129"/>
+      <Attr Name="_isForeign" Value="true"/>
+      <Attr Name="_DBObjectName" Value="SYS_C0014160"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.DeclarationEO.Kimpot"/>
+    </AttrArray>
+  </Key>
+</Entity>

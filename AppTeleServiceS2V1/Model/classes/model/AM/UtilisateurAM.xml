@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE AppModule SYSTEM "jbo_03_01.dtd">
+<!---->
+<AppModule
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="UtilisateurAM"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  ClearCacheOnRollback="true">
+  <ViewUsage
+    Name="UtilisateurVO1"
+    ViewObjectName="model.VO.UtilisateurVO"/>
+  <ViewUsage
+    Name="PaiementVO1"
+    ViewObjectName="model.VO.PaiementVO"/>
+  <ViewUsage
+    Name="ProfileuserVO1"
+    ViewObjectName="model.VO.ProfileuserVO"/>
+  <ViewUsage
+    Name="UtilisateurVO2"
+    ViewObjectName="model.VO.UtilisateurVO"/>
+  <ViewLinkUsage
+    Name="SysC0014166Link"
+    ViewLinkObjectName="model.VO.SysC0014166Link"
+    SrcViewUsageName="model.AM.UtilisateurAM.UtilisateurVO1"
+    DstViewUsageName="model.AM.UtilisateurAM.PaiementVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="SysC0014138Link"
+    ViewLinkObjectName="model.VO.SysC0014138Link"
+    SrcViewUsageName="model.AM.UtilisateurAM.ProfileuserVO1"
+    DstViewUsageName="model.AM.UtilisateurAM.UtilisateurVO2"
+    Reversed="false"/>
+</AppModule>

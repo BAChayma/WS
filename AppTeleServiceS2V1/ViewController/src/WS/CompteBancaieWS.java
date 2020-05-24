@@ -1,0 +1,95 @@
+package WS;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+
+import model.Data.Banque;
+import model.Data.CompteBancaire;
+import model.Data.ConsulterDossierContribuable;
+
+import model.Data.Contribuable;
+
+import oracle.jbo.client.Configuration;
+import oracle.jbo.server.ApplicationModuleImpl;
+
+@Path("/compteBancaieWS")
+public class CompteBancaieWS {
+    
+    public static final String CompteBancaieAM = "model.AM.ComptebancaireAM";
+    public static final String CompteBancaieAM_CONFIG = "ComptebancaireAMLocal";
+    
+    @GET
+    @Path("/getCBbyID/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public CompteBancaire getCBbyID(@QueryParam("kcompte") int kcompte){
+        CompteBancaire cbWS = new CompteBancaire();
+        int p_kcb = 0 , p_ka = 0 , p_kb = 0; 
+        String p_rib = null;
+        PreparedStatement createPreparedStatement = null;
+        ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.CompteBancaieAM, this.CompteBancaieAM_CONFIG);
+        createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+"select kcompte,rib,kagence,kbanque from comptebancaire where kcompte = ? ",0);
+        ResultSet resultSet = null;
+        try {
+        createPreparedStatement.setInt(1, kcompte);  
+        resultSet = createPreparedStatement.executeQuery();
+        if (resultSet.next()) {
+            p_kcb = resultSet.getInt(1);
+            p_rib = resultSet.getString(2);
+            p_ka = resultSet.getInt(3);
+            p_kb = resultSet.getInt(4);
+        } 
+        cbWS.setKcompte(p_kcb);
+        cbWS.setRib(p_rib);
+        cbWS.setKagence(p_ka);
+        cbWS.setKbanque(p_kb);
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        Configuration.releaseRootApplicationModule(appModule, true);
+        return cbWS;
+    }
+    
+    @PUT
+    @Path("/CompteBancaire/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public CompteBancaire updateCB(CompteBancaire cbWS ,
+                                   @QueryParam("kcompte") int kcompte){
+        PreparedStatement createPreparedStatement = null;
+        ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.CompteBancaieAM, this.CompteBancaieAM_CONFIG);
+        createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+"update comptebancaire cb set rib = ?, kagence = ?, kbanque = ? where kcompte = ? ",0);
+        try {
+            createPreparedStatement.setInt(1, kcompte); 
+            createPreparedStatement.setString(2, cbWS.getRib());
+            createPreparedStatement.setInt(3, cbWS.getKagence());
+            createPreparedStatement.setInt(4, cbWS.getKbanque());
+            
+            System.out.println(cbWS.getRib() + cbWS.getKagence() + cbWS.getKbanque() );
+           
+            createPreparedStatement.executeUpdate();
+            System.out.println(String.format("Row affected %d", createPreparedStatement.executeUpdate()));
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        appModule.getTransaction().commit();
+        Configuration.releaseRootApplicationModule(appModule, true);
+        return cbWS;
+    }
+    
+    
+}

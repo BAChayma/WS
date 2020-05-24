@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewLink SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewLink
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SysC0014147Link"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  EntityAssociation="model.EO.SysC0014147Assoc">
+  <ViewLinkDefEnd
+    Name="TypestructprivilegeVO"
+    Cardinality="1"
+    Source="true"
+    Owner="model.VO.TypestructprivilegeVO">
+    <DesignTime>
+      <Attr Name="_finderName" Value="TypestructprivilegeVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.VO.TypestructprivilegeVO.Ktstructpri"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+  <ViewLinkDefEnd
+    Name="StructprivilegeVO"
+    Cardinality="-1"
+    Owner="model.VO.StructprivilegeVO">
+    <DesignTime>
+      <Attr Name="_finderName" Value="StructprivilegeVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.VO.StructprivilegeVO.Ktstructpri"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+</ViewLink>

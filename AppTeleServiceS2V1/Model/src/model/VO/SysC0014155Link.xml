@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewLink SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewLink
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SysC0014155Link"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  EntityAssociation="model.EO.SysC0014155Assoc">
+  <ViewLinkDefEnd
+    Name="ContribuableVO"
+    Cardinality="1"
+    Source="true"
+    Owner="model.VO.ContribuableVO">
+    <DesignTime>
+      <Attr Name="_finderName" Value="ContribuableVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.VO.ContribuableVO.Kcnc"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+  <ViewLinkDefEnd
+    Name="PersonneVO"
+    Cardinality="-1"
+    Owner="model.VO.PersonneVO">
+    <DesignTime>
+      <Attr Name="_finderName" Value="PersonneVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.VO.PersonneVO.Kcnc"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+</ViewLink>

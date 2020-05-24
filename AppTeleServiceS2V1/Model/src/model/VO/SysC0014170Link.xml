@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewLink SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewLink
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SysC0014170Link"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  EntityAssociation="model.EO.SysC0014170Assoc">
+  <ViewLinkDefEnd
+    Name="PaiementVO"
+    Cardinality="1"
+    Source="true"
+    Owner="model.VO.PaiementVO">
+    <DesignTime>
+      <Attr Name="_finderName" Value="PaiementVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.VO.PaiementVO.Kpaiem"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+  <ViewLinkDefEnd
+    Name="ModepaiementVO"
+    Cardinality="-1"
+    Owner="model.VO.ModepaiementVO">
+    <DesignTime>
+      <Attr Name="_finderName" Value="ModepaiementVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.VO.ModepaiementVO.Kpaiem"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+</ViewLink>

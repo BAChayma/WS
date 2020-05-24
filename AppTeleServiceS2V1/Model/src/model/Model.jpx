@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE JboProject SYSTEM "jbo_03_01.dtd">
+<!---->
+<JboProject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="Model"
+  Version="12.1.3.10.47"
+  SeparateXMLFiles="true"
+  PackageName="model">
+  <DesignTime>
+    <Attr Name="_jprName" Value="../../Model.jpr"/>
+    <Attr Name="_jbo.TypeMapEntries" Value="OracleApps"/>
+    <Attr Name="_NamedConnection" Value="Connection1"/>
+    <Attr Name="_appModuleNames0" Value="model.AM.ActiviteentrepriseAM"/>
+    <Attr Name="_appModuleNames1" Value="model.AM.AdresseAM"/>
+    <Attr Name="_appModuleNames2" Value="model.AM.AgenceAM"/>
+    <Attr Name="_appModuleNames3" Value="model.AM.BanqueAM"/>
+    <Attr Name="_appModuleNames4" Value="model.AM.ComptebancaireAM"/>
+    <Attr Name="_appModuleNames5" Value="model.AM.ContribuableAM"/>
+    <Attr Name="_appModuleNames6" Value="model.AM.DeclarationAM"/>
+    <Attr Name="_appModuleNames7" Value="model.AM.FormejuridiqueAM"/>
+    <Attr Name="_appModuleNames8" Value="model.AM.ImpotAM"/>
+    <Attr Name="_appModuleNames9" Value="model.AM.ModepaiementAM"/>
+    <Attr Name="_appModuleNames10" Value="model.AM.PaiementAM"/>
+    <Attr Name="_appModuleNames11" Value="model.AM.PaysAM"/>
+    <Attr Name="_appModuleNames12" Value="model.AM.PersonneAM"/>
+    <Attr Name="_appModuleNames13" Value="model.AM.ProfileuserAM"/>
+    <Attr Name="_appModuleNames14" Value="model.AM.ReclamationAM"/>
+    <Attr Name="_appModuleNames15" Value="model.AM.StructprivilegeAM"/>
+    <Attr Name="_appModuleNames16" Value="model.AM.StructureadrAM"/>
+    <Attr Name="_appModuleNames17" Value="model.AM.TypestructprivilegeAM"/>
+    <Attr Name="_appModuleNames18" Value="model.AM.TypestructureadrAM"/>
+    <Attr Name="_appModuleNames19" Value="model.AM.UtilisateurAM"/>
+  </DesignTime>
+  <Containee
+    Name="AM"
+    PackageName="model.AM"
+    ObjectType="JboPackage">
+    <DesignTime>
+      <Attr Name="_AM" Value="true"/>
+    </DesignTime>
+  </Containee>
+  <Containee
+    Name="EO"
+    PackageName="model.EO"
+    ObjectType="JboPackage">
+    <DesignTime>
+      <Attr Name="_EO" Value="true"/>
+      <Attr Name="_AS" Value="true"/>
+    </DesignTime>
+  </Containee>
+  <Containee
+    Name="VO"
+    PackageName="model.VO"
+    ObjectType="JboPackage">
+    <DesignTime>
+      <Attr Name="_VO" Value="true"/>
+      <Attr Name="_VL" Value="true"/>
+    </DesignTime>
+  </Containee>
+</JboProject>

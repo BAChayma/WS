@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE AppModule SYSTEM "jbo_03_01.dtd">
+<!---->
+<AppModule
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="ContribuableAM"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  ClearCacheOnRollback="true"
+  ComponentClass="model.AM.ContribuableAMImpl">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <ViewUsage
+    Name="ContribuableVO1"
+    ViewObjectName="model.VO.ContribuableVO"/>
+  <ViewUsage
+    Name="AdresseVO1"
+    ViewObjectName="model.VO.AdresseVO"/>
+  <ViewUsage
+    Name="ContribuableVO2"
+    ViewObjectName="model.VO.ContribuableVO"/>
+  <ViewUsage
+    Name="ComptebancaireVO1"
+    ViewObjectName="model.VO.ComptebancaireVO"/>
+  <ViewUsage
+    Name="ContribuableVO3"
+    ViewObjectName="model.VO.ContribuableVO"/>
+  <ViewUsage
+    Name="ActiviteentrepriseVO1"
+    ViewObjectName="model.VO.ActiviteentrepriseVO"/>
+  <ViewLinkUsage
+    Name="SysC0014181Link"
+    ViewLinkObjectName="model.VO.SysC0014181Link"
+    SrcViewUsageName="model.AM.ContribuableAM.ContribuableVO1"
+    DstViewUsageName="model.AM.ContribuableAM.AdresseVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="SysC0014194Link"
+    ViewLinkObjectName="model.VO.SysC0014194Link"
+    SrcViewUsageName="model.AM.ContribuableAM.ContribuableVO2"
+    DstViewUsageName="model.AM.ContribuableAM.ComptebancaireVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="SysC0014177Link"
+    ViewLinkObjectName="model.VO.SysC0014177Link"
+    SrcViewUsageName="model.AM.ContribuableAM.ContribuableVO3"
+    DstViewUsageName="model.AM.ContribuableAM.ActiviteentrepriseVO1"
+    Reversed="false"/>
+</AppModule>

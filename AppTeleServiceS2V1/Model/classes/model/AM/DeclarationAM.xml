@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE AppModule SYSTEM "jbo_03_01.dtd">
+<!---->
+<AppModule
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="DeclarationAM"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  ClearCacheOnRollback="true">
+  <ViewUsage
+    Name="ContribuableVO1"
+    ViewObjectName="model.VO.ContribuableVO"/>
+  <ViewUsage
+    Name="DeclarationVO1"
+    ViewObjectName="model.VO.DeclarationVO"/>
+  <ViewUsage
+    Name="DeclarationVO2"
+    ViewObjectName="model.VO.DeclarationVO"/>
+  <ViewLinkUsage
+    Name="SysC0014159Link"
+    ViewLinkObjectName="model.VO.SysC0014159Link"
+    SrcViewUsageName="model.AM.DeclarationAM.ContribuableVO1"
+    DstViewUsageName="model.AM.DeclarationAM.DeclarationVO1"
+    Reversed="false"/>
+</AppModule>

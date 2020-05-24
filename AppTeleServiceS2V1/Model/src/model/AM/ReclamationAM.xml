@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE AppModule SYSTEM "jbo_03_01.dtd">
+<!---->
+<AppModule
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="ReclamationAM"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  ClearCacheOnRollback="true">
+  <ViewUsage
+    Name="ContribuableVO1"
+    ViewObjectName="model.VO.ContribuableVO"/>
+  <ViewUsage
+    Name="ReclamationVO1"
+    ViewObjectName="model.VO.ReclamationVO"/>
+  <ViewUsage
+    Name="ReclamationVO2"
+    ViewObjectName="model.VO.ReclamationVO"/>
+  <ViewLinkUsage
+    Name="SysC0014163Link"
+    ViewLinkObjectName="model.VO.SysC0014163Link"
+    SrcViewUsageName="model.AM.ReclamationAM.ContribuableVO1"
+    DstViewUsageName="model.AM.ReclamationAM.ReclamationVO1"
+    Reversed="false"/>
+</AppModule>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Association SYSTEM "jbo_03_01.dtd">
+<!---->
+<Association
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SysC0014174Assoc"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <AssociationEnd
+    Name="PersonneEO"
+    Cardinality="1"
+    Source="true"
+    Owner="model.EO.PersonneEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="PersonneEO"/>
+      <Attr Name="_foreignKey" Value="model.EO.PersonneEO.SysC0014154"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.PersonneEO.Kper"/>
+    </AttrArray>
+  </AssociationEnd>
+  <AssociationEnd
+    Name="PaysEO"
+    Cardinality="-1"
+    Owner="model.EO.PaysEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="PaysEO"/>
+      <Attr Name="_foreignKey" Value="model.EO.PaysEO.SysC0014174"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.PaysEO.Kper"/>
+    </AttrArray>
+  </AssociationEnd>
+</Association>

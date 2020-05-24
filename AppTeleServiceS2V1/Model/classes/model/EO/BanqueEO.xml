@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Entity SYSTEM "jbo_03_01.dtd">
+<!---->
+<Entity
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="BanqueEO"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  DBObjectType="table"
+  DBObjectName="BANQUE"
+  AliasName="BanqueEO"
+  BindingStyle="OracleName">
+  <Attribute
+    Name="Kbanque"
+    IsNotNull="true"
+    ColumnName="KBANQUE"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="BANQUE"
+    PrimaryKey="true"/>
+  <Attribute
+    Name="Nombanque"
+    Precision="254"
+    ColumnName="NOMBANQUE"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="BANQUE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="254"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="Kadresse"
+    ColumnName="KADRESSE"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="BANQUE"/>
+  <AccessorAttribute
+    Name="AgenceEO"
+    Association="model.EO.SysC0014188Assoc"
+    AssociationEnd="model.EO.SysC0014188Assoc.AgenceEO"
+    AssociationOtherEnd="model.EO.SysC0014188Assoc.BanqueEO"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <AccessorAttribute
+    Name="AdresseEO"
+    Association="model.EO.SysC0014185Assoc"
+    AssociationEnd="model.EO.SysC0014185Assoc.AdresseEO"
+    AssociationOtherEnd="model.EO.SysC0014185Assoc.BanqueEO"
+    Type="oracle.jbo.server.EntityImpl"
+    IsUpdateable="true"/>
+  <AccessorAttribute
+    Name="ComptebancaireEO"
+    Association="model.EO.SysC0014193Assoc"
+    AssociationEnd="model.EO.SysC0014193Assoc.ComptebancaireEO"
+    AssociationOtherEnd="model.EO.SysC0014193Assoc.BanqueEO"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <Key
+    Name="SysC0014184"
+    PrimaryKey="true">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="SYS_C0014184"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.BanqueEO.Kbanque"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="SysC0014185">
+    <DesignTime>
+      <Attr Name="_referencedKey" Value="SYS_C0014179"/>
+      <Attr Name="_isForeign" Value="true"/>
+      <Attr Name="_DBObjectName" Value="SYS_C0014185"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.BanqueEO.Kadresse"/>
+    </AttrArray>
+  </Key>
+</Entity>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE AppModule SYSTEM "jbo_03_01.dtd">
+<!---->
+<AppModule
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="TypestructprivilegeAM"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  ClearCacheOnRollback="true">
+  <ViewUsage
+    Name="TypestructprivilegeVO1"
+    ViewObjectName="model.VO.TypestructprivilegeVO"/>
+  <ViewUsage
+    Name="StructprivilegeVO1"
+    ViewObjectName="model.VO.StructprivilegeVO"/>
+  <ViewLinkUsage
+    Name="SysC0014147Link"
+    ViewLinkObjectName="model.VO.SysC0014147Link"
+    SrcViewUsageName="model.AM.TypestructprivilegeAM.TypestructprivilegeVO1"
+    DstViewUsageName="model.AM.TypestructprivilegeAM.StructprivilegeVO1"
+    Reversed="false"/>
+</AppModule>

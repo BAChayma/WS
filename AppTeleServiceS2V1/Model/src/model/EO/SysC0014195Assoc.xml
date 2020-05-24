@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Association SYSTEM "jbo_03_01.dtd">
+<!---->
+<Association
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SysC0014195Assoc"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <AssociationEnd
+    Name="PersonneEO"
+    Cardinality="1"
+    Source="true"
+    Owner="model.EO.PersonneEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="PersonneEO"/>
+      <Attr Name="_foreignKey" Value="model.EO.PersonneEO.SysC0014154"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.PersonneEO.Kper"/>
+    </AttrArray>
+  </AssociationEnd>
+  <AssociationEnd
+    Name="ComptebancaireEO"
+    Cardinality="-1"
+    Owner="model.EO.ComptebancaireEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="ComptebancaireEO"/>
+      <Attr Name="_foreignKey" Value="model.EO.ComptebancaireEO.SysC0014195"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.ComptebancaireEO.Kper"/>
+    </AttrArray>
+  </AssociationEnd>
+</Association>

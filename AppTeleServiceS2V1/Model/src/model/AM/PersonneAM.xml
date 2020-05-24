@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE AppModule SYSTEM "jbo_03_01.dtd">
+<!---->
+<AppModule
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="PersonneAM"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  ClearCacheOnRollback="true">
+  <ViewUsage
+    Name="PersonneVO1"
+    ViewObjectName="model.VO.PersonneVO"/>
+  <ViewUsage
+    Name="PaysVO1"
+    ViewObjectName="model.VO.PaysVO"/>
+  <ViewUsage
+    Name="PersonneVO2"
+    ViewObjectName="model.VO.PersonneVO"/>
+  <ViewUsage
+    Name="AdresseVO1"
+    ViewObjectName="model.VO.AdresseVO"/>
+  <ViewUsage
+    Name="PersonneVO3"
+    ViewObjectName="model.VO.PersonneVO"/>
+  <ViewUsage
+    Name="ComptebancaireVO1"
+    ViewObjectName="model.VO.ComptebancaireVO"/>
+  <ViewUsage
+    Name="ContribuableVO1"
+    ViewObjectName="model.VO.ContribuableVO"/>
+  <ViewUsage
+    Name="PersonneVO4"
+    ViewObjectName="model.VO.PersonneVO"/>
+  <ViewLinkUsage
+    Name="SysC0014174Link"
+    ViewLinkObjectName="model.VO.SysC0014174Link"
+    SrcViewUsageName="model.AM.PersonneAM.PersonneVO1"
+    DstViewUsageName="model.AM.PersonneAM.PaysVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="SysC0014182Link"
+    ViewLinkObjectName="model.VO.SysC0014182Link"
+    SrcViewUsageName="model.AM.PersonneAM.PersonneVO2"
+    DstViewUsageName="model.AM.PersonneAM.AdresseVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="SysC0014195Link"
+    ViewLinkObjectName="model.VO.SysC0014195Link"
+    SrcViewUsageName="model.AM.PersonneAM.PersonneVO3"
+    DstViewUsageName="model.AM.PersonneAM.ComptebancaireVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="SysC0014155Link"
+    ViewLinkObjectName="model.VO.SysC0014155Link"
+    SrcViewUsageName="model.AM.PersonneAM.ContribuableVO1"
+    DstViewUsageName="model.AM.PersonneAM.PersonneVO4"
+    Reversed="false"/>
+</AppModule>

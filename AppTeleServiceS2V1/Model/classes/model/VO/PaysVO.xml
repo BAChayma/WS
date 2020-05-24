@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="PaysVO"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  SelectListFlags="1"
+  FromListFlags="1"
+  WhereFlags="1"
+  BindingStyle="OracleName"
+  CustomQuery="false"
+  SelectAllAttributes="false"
+  PageIterMode="Full">
+  <EntityUsage
+    Name="PaysEO"
+    Entity="model.EO.PaysEO"/>
+  <ViewAttribute
+    Name="Kpays"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Kpays"
+    EntityUsage="PaysEO"
+    AliasName="KPAYS"/>
+  <ViewAttribute
+    Name="Pays"
+    PrecisionRule="true"
+    EntityAttrName="Pays"
+    EntityUsage="PaysEO"
+    AliasName="PAYS"/>
+  <ViewAttribute
+    Name="Nationnalite"
+    PrecisionRule="true"
+    EntityAttrName="Nationnalite"
+    EntityUsage="PaysEO"
+    AliasName="NATIONNALITE"/>
+  <ViewAttribute
+    Name="Kcnc"
+    PrecisionRule="true"
+    EntityAttrName="Kcnc"
+    EntityUsage="PaysEO"
+    AliasName="KCNC"/>
+  <ViewAttribute
+    Name="Kper"
+    PrecisionRule="true"
+    EntityAttrName="Kper"
+    EntityUsage="PaysEO"
+    AliasName="KPER"/>
+</ViewObject>

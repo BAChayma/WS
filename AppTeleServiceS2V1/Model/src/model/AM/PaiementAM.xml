@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE AppModule SYSTEM "jbo_03_01.dtd">
+<!---->
+<AppModule
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="PaiementAM"
+  Version="12.1.3.10.47"
+  InheritPersonalization="merge"
+  ClearCacheOnRollback="true">
+  <ViewUsage
+    Name="PaiementVO1"
+    ViewObjectName="model.VO.PaiementVO"/>
+  <ViewUsage
+    Name="ModepaiementVO1"
+    ViewObjectName="model.VO.ModepaiementVO"/>
+  <ViewUsage
+    Name="DeclarationVO1"
+    ViewObjectName="model.VO.DeclarationVO"/>
+  <ViewUsage
+    Name="PaiementVO2"
+    ViewObjectName="model.VO.PaiementVO"/>
+  <ViewLinkUsage
+    Name="SysC0014170Link"
+    ViewLinkObjectName="model.VO.SysC0014170Link"
+    SrcViewUsageName="model.AM.PaiementAM.PaiementVO1"
+    DstViewUsageName="model.AM.PaiementAM.ModepaiementVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="SysC0014167Link"
+    ViewLinkObjectName="model.VO.SysC0014167Link"
+    SrcViewUsageName="model.AM.PaiementAM.DeclarationVO1"
+    DstViewUsageName="model.AM.PaiementAM.PaiementVO2"
+    Reversed="false"/>
+</AppModule>
