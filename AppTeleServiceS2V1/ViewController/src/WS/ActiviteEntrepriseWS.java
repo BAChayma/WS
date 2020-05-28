@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -32,6 +33,8 @@ import model.Data.Contribuable;
 
 import model.Data.FormeJuridique;
 
+import model.Data.Pays;
+
 import oracle.jbo.client.Configuration;
 import oracle.jbo.server.ApplicationModuleImpl;
 
@@ -40,21 +43,79 @@ public class ActiviteEntrepriseWS {
     public static final String ActiviteEntrepriseAM = "model.AM.ActiviteentrepriseAM";
     public static final String ActiviteEntrepriseAM_CONFIG = "ActiviteentrepriseAMLocal";
     
+    @GET
+    @Path("/LOVAE/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public List<ActiviteEntreprise> LOVAE () {
+            String p_nb = null ;
+            int p_kb = 0;
+            ActiviteEntreprise list = new ActiviteEntreprise();
+            List<ActiviteEntreprise> ListWS = new ArrayList<ActiviteEntreprise>();
+            ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.ActiviteEntrepriseAM, this.ActiviteEntrepriseAM_CONFIG);
+            String req = " select  ae.kactent , ae.libelleae \n" + 
+            "from activiteentreprise ae \n" + 
+            "order by ae.libelleae ";
+            PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
+            ResultSet resultSet = null;
+            try {
+                resultSet = createPreparedStatement.executeQuery();
+                ResultSetMetaData rsmd = resultSet.getMetaData();
+                int nbCols = rsmd.getColumnCount();
+                System.out.println("nb col " + nbCols);
+                while (resultSet.next()) {
+                    ListWS.add(map(resultSet));
+                }
+                /*resultSet = createPreparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    p_kb = resultSet.getInt(1);
+                    p_nb = resultSet.getString(2); 
+                    System.out.println( p_nb + p_kb );
+                }
+                list.setLibelleAE(p_nb);
+                list.setKActEnt(p_kb);*/
+            }
+            catch(SQLException e) {
+                e.printStackTrace();
+            }
+            Configuration.releaseRootApplicationModule(appModule, true);
+            return ListWS;
+        }
+    
+    @DELETE
+    @Path("/deleteCBbyID/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public ActiviteEntreprise deleteCBbyID(@QueryParam("kactent") int kactent){
+        ActiviteEntreprise aeWS = new ActiviteEntreprise();
+        PreparedStatement createPreparedStatement = null;
+        ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.ActiviteEntrepriseAM, this.ActiviteEntrepriseAM_CONFIG);
+        createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+"delete from comptebancaire where kactent = ?;",0);
+        ResultSet resultSet = null;
+        try {
+        createPreparedStatement.setInt(1, kactent);  
+        int result = createPreparedStatement.executeUpdate();
+        System.out.println("Number of records affected :: " + result);
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        appModule.getTransaction().commit();
+        Configuration.releaseRootApplicationModule(appModule, true);
+        return aeWS;
+    }
+    
     @PUT
     @Path("/updateActEse/")
     @Produces("application/json")
     @Consumes("application/json")
     public ActiviteEntreprise updateActEse( ActiviteEntreprise ActEseWS ){
-        // ActiviteEntreprise ActEseWS , @QueryParam("kActEnt") int kActEnt
-        //ActiviteEntreprise ActEseWS = new ActiviteEntreprise();
         PreparedStatement createPreparedStatement = null;
         ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.ActiviteEntrepriseAM, this.ActiviteEntrepriseAM_CONFIG);
         createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+"update ActiviteEntreprise set libelleAE = ? where kActEnt = ? ",0);
         try {
-            //createPreparedStatement.setInt(1, ActEseWS.getKActEnt());
             createPreparedStatement.setString(1, ActEseWS.getLibelleAE());
             createPreparedStatement.setInt(2, ActEseWS.getKActEnt());
-            //createPreparedStatement.setInt(2, kActEnt);
             
             createPreparedStatement.executeUpdate();
             System.out.println(String.format("Row affected %d", createPreparedStatement.executeUpdate()));
@@ -101,14 +162,13 @@ public class ActiviteEntrepriseWS {
     @Consumes("application/json")
     @Path("/createActEse")
     public ActiviteEntreprise createActEse (ActiviteEntreprise ActEseWS){
-        //ActiviteEntreprise ActEseWS = new ActiviteEntreprise();
         ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.ActiviteEntrepriseAM, this.ActiviteEntrepriseAM_CONFIG);
         String req = " insert into ActiviteEntreprise (kActEnt , libelleAE) values (ActiviteEntrepriseSeq.NEXTVAL , ?)" ;
         PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
         ResultSet resultSet = null;
         try {
             createPreparedStatement.setString(1, ActEseWS.getLibelleAE()); 
-            createPreparedStatement.executeUpdate(); //executeQuery();
+            createPreparedStatement.executeUpdate();
         }catch(SQLException e) {
             e.printStackTrace();
         }

@@ -9,6 +9,25 @@ public class CompteBancaire {
     private String rib;
     private int kagence;
     private int kbanque;
+    
+    private String nomBanque;
+    private String libelleAgence;
+
+    public void setNomBanque(String nomBanque) {
+        this.nomBanque = nomBanque;
+    }
+
+    public String getNomBanque() {
+        return nomBanque;
+    }
+
+    public void setLibelleAgence(String libelleAgence) {
+        this.libelleAgence = libelleAgence;
+    }
+
+    public String getLibelleAgence() {
+        return libelleAgence;
+    }
 
 
     public void setKcompte(int kcompte) {

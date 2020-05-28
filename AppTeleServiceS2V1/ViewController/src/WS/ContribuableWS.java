@@ -44,7 +44,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
 import model.Data.ActiviteEntreprise;
+import model.Data.Adresse;
+import model.Data.CompteBancaire;
 import model.Data.ConsulterDossierContribuable;
+import model.Data.InfoContribuable;
 
 
 @Path("/contribuableWs")
@@ -54,41 +57,60 @@ public class ContribuableWS {
     public static final String contribuableAM = "model.AM.ContribuableAM";
     public static final String contribuableAM_CONFIG = "ContribuableAMLocal";
     
+    
     @GET
+    @Path("/InfoContribuableById/")
     @Produces("application/json")
-    @Path("/ContribuableByNIF/")
-    public List<ConsulterDossierContribuable> ContribuableByNIF (@QueryParam("nif") String nif) {
-            Date p_dbexp = new Date();  
-            ConsulterDossierContribuable contriWS = new ConsulterDossierContribuable();
-            List<ConsulterDossierContribuable> ListcontriWS = new ArrayList<ConsulterDossierContribuable>();
-            SimpleDateFormat spf = new SimpleDateFormat("dd/MM/yyyy");
-            ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.contribuableAM, this.contribuableAM_CONFIG);
-            String req = " select c.nomCommerciale,c.raisonSociale,c.registreCommerce,c.dateDebExp,c.capitalSociale,\n" + 
-            "       fj.libellefj , ae.libelleae , p.nationnalite , cb.kcompte, cb.rib , b.nombanque , a.libelleagence , \n" + 
-            "       per.identifiant , per.nom , per.prenom ,\n" + 
-            "       adr.kadresse, adr.numrue , adr.rue , adr.cp , sadr.libellesadr , sadr.kStructureAdr , tsadr.libelletsadr , tsadr.kTStructureAdr\n" + 
-            "from Contribuable c , FormeJuridique fj , ActiviteEntreprise ae , Pays p , comptebancaire cb , banque b , agence a ,Personne per,\n" + 
-            "     adresse adr , structureadr sadr , typestructureadr tsadr\n" + 
-            "where c.kformjuri = fj.kformjuri and c.kcnc = ae.kcnc and c.kcnc = p.kcnc\n" + 
-            "      and c.kcnc = cb.kcnc and cb.kbanque = b.kbanque and cb.kagence = a.kagence\n" + 
-            "      and sadr.ktstructureadr = tsadr.ktstructureadr and adr.kstructureadr = sadr.kstructureadr and c.kcnc = adr.kcnc\n" + 
-            "      and per.kcnc = c.kcnc and per.qualite = 'responsable' and c.nif = ? " ;
-            PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
-            ResultSet resultSet = null;
-            try {
-                createPreparedStatement.setString(1, nif);  
-                resultSet = createPreparedStatement.executeQuery();
-                while (resultSet.next()) {  
-                    ListcontriWS.add(map(resultSet));
-                }
+    @Consumes("application/json")
+    public InfoContribuable InfoContribuableById (@QueryParam("nif") String nif) {
+        Date p_dbexp = new Date();
+        String p_rs = null, p_nc = null, p_rc = null, p_lfj = null, p_lae = null, p_nat = null, p_rue = null, p_cp = null, p_libsadr = null, libtsadr = null;
+        String p_rib = null, p_nb = null, p_na = null, p_idPer = null, p_nomPer = null, p_prenomPer = null;
+        double p_cs = 0;
+        int p_kc = 0, p_kadr = 0, p_numrue = 0;
+        InfoContribuable contriWS = new InfoContribuable();
+        ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.contribuableAM, this.contribuableAM_CONFIG);
+        String req = " select c.nomCommerciale,c.raisonSociale,c.registreCommerce,c.dateDebExp,c.capitalSociale,fj.libellefj , ae.libelleae , p.nationnalite , per.identifiant , per.nom , per.prenom \n" + 
+        "from Contribuable c , FormeJuridique fj , ActiviteEntreprise ae , Pays p  ,Personne per\n" + 
+        "where c.kformjuri = fj.kformjuri and c.kcnc = ae.kcnc and c.kcnc = p.kcnc and per.kcnc = c.kcnc and per.qualite = 'responsable' and c.nif = ? " ;
+        PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
+        ResultSet resultSet = null;
+        try {
+            createPreparedStatement.setString(1, nif);  
+            resultSet = createPreparedStatement.executeQuery();
+            if (resultSet.next()) {
+                p_nc = resultSet.getString(1);
+                p_rs = resultSet.getString(2);
+                p_rc = resultSet.getString(3);
+                p_dbexp = resultSet.getDate(4);
+                p_cs = resultSet.getDouble(5);
+                p_lfj = resultSet.getString(6);
+                p_lae = resultSet.getString(7);
+                p_nat = resultSet.getString(8);
+                p_idPer = resultSet.getString(9);
+                p_nomPer = resultSet.getString(10);
+                p_prenomPer = resultSet.getString(11);  
             }
-            catch(SQLException e) {
-                e.printStackTrace();
-            }
-            Configuration.releaseRootApplicationModule(appModule, true);
-            return ListcontriWS;
+            contriWS.setNomCommerciale(p_nc);
+            contriWS.setRaisonSociale(p_rs);
+            contriWS.setRegistreCommerce(p_rc);
+            contriWS.setDateDebExp(p_dbexp);
+            contriWS.setCapitalSociale(p_cs);
+            contriWS.setLibellefj(p_lfj);
+            contriWS.setLibelleae(p_lae);
+            contriWS.setNationnalite(p_nat);
+            contriWS.setIdentifiant(p_idPer);
+            contriWS.setNom(p_nomPer);
+            contriWS.setPrenom(p_prenomPer);
         }
-
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        Configuration.releaseRootApplicationModule(appModule, true);
+        return contriWS;
+    }
+    
+    
     
     @GET
     @Produces("application/json")
@@ -96,16 +118,18 @@ public class ContribuableWS {
     public ConsulterDossierContribuable ContribuableById (@QueryParam("nif") String nif) {
             Date p_dbexp = new Date();  
             ConsulterDossierContribuable contriWS = new ConsulterDossierContribuable();
+            Adresse adrWS = new Adresse();
             String p_rs = null, p_nc = null, p_rc = null, p_lfj = null, p_lae = null, p_nat = null, p_rue = null, p_cp = null, p_libsadr = null, libtsadr = null;
             String p_rib = null, p_nb = null, p_na = null, p_idPer = null, p_nomPer = null, p_prenomPer = null;
             double p_cs = 0;
-            int p_kc = 0, p_kadr = 0, p_numrue = 0, p_ksadr = 0, p_ktsadr = 0;
+            int p_kc = 0, p_kadr = 0, p_numrue = 0;
+            //, p_ksadr = 0, p_ktsadr = 0
             SimpleDateFormat spf = new SimpleDateFormat("dd/MM/yyyy");
             ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.contribuableAM, this.contribuableAM_CONFIG);
             String req = " select c.nomCommerciale,c.raisonSociale,c.registreCommerce,c.dateDebExp,c.capitalSociale,\n" + 
             "       fj.libellefj , ae.libelleae , p.nationnalite , cb.kcompte, cb.rib , b.nombanque , a.libelleagence , \n" + 
             "       per.identifiant , per.nom , per.prenom ,\n" + 
-            "       adr.kadresse, adr.numrue , adr.rue , adr.cp , sadr.libellesadr , sadr.kStructureAdr , tsadr.libelletsadr , tsadr.kTStructureAdr\n" + 
+            "       adr.kadresse, adr.numrue , adr.rue , adr.cp , sadr.libellesadr , tsadr.libelletsadr\n" + 
             "from Contribuable c , FormeJuridique fj , ActiviteEntreprise ae , Pays p , comptebancaire cb , banque b , agence a ,Personne per,\n" + 
             "     adresse adr , structureadr sadr , typestructureadr tsadr\n" + 
             "where c.kformjuri = fj.kformjuri and c.kcnc = ae.kcnc and c.kcnc = p.kcnc\n" + 
@@ -137,12 +161,12 @@ public class ContribuableWS {
                     p_numrue = resultSet.getInt(17);
                     p_rue = resultSet.getString(18);
                     p_cp = resultSet.getString(19);
-                    p_ksadr = resultSet.getInt(20);
-                    p_libsadr = resultSet.getString(21);
-                    p_ktsadr = resultSet.getInt(22);
-                    libtsadr = resultSet.getString(23);
+                    //p_ksadr = resultSet.getInt(20);
+                    p_libsadr = resultSet.getString(20);
+                    //p_ktsadr = resultSet.getInt(22);
+                    libtsadr = resultSet.getString(21);
                     
-                    System.out.println( p_nc +  p_rs  + p_rc + p_dbexp  + p_cs + p_lfj + p_lae + p_nat + p_kc + p_rib + p_nb + p_na + p_idPer + p_nomPer + p_prenomPer);
+                    System.out.println( p_nc +  p_rs  + p_rc + p_dbexp  + p_cs + p_lfj + p_lae + p_nat + p_kc + p_rib + p_nb + p_na + p_idPer + p_nomPer + p_prenomPer + p_kadr + p_numrue + p_rue + p_cp + p_libsadr +  libtsadr);
                 }
                 contriWS.setNomCommerciale(p_nc);
                 contriWS.setRaisonSociale(p_rs);
@@ -159,14 +183,16 @@ public class ContribuableWS {
                 contriWS.setIdentifiant(p_idPer);
                 contriWS.setNom(p_nomPer);
                 contriWS.setPrenom(p_prenomPer);
+                
                 contriWS.setKadresse(p_kadr);
                 contriWS.setNumRue(p_numrue);
                 contriWS.setRue(p_rue);
                 contriWS.setCp(p_cp);
-                contriWS.setKStructureAdr(p_ksadr);
+                //contriWS.setKStructureAdr(p_ksadr);
                 contriWS.setLibellesadr(p_libsadr);
-                contriWS.setKTStructureAdr(p_ktsadr);
+                //contriWS.setKTStructureAdr(p_ktsadr);
                 contriWS.setLibelletsadr(libtsadr);
+                //contriWS.setLadr();
             }
             catch(SQLException e) {
                 e.printStackTrace();
@@ -174,7 +200,6 @@ public class ContribuableWS {
             Configuration.releaseRootApplicationModule(appModule, true);
             return contriWS;
         }
-    
    
     @PUT
     @Path("/updateContribuable/")
@@ -212,7 +237,7 @@ public class ContribuableWS {
         return contriWS;
     }
     
-    private static ConsulterDossierContribuable map(ResultSet resultSet) throws SQLException {
+    /*private static ConsulterDossierContribuable map(ResultSet resultSet) throws SQLException {
            ConsulterDossierContribuable user = new ConsulterDossierContribuable();
            user.setNomCommerciale(resultSet.getString("nomCommerciale"));
            user.setRaisonSociale(resultSet.getString("raisonSociale"));
@@ -233,12 +258,12 @@ public class ContribuableWS {
            user.setNumRue(resultSet.getInt("numRue"));
            user.setRue(resultSet.getString("rue"));
            user.setCp(resultSet.getString("cp"));
-           user.setKStructureAdr(resultSet.getInt("kStructureAdr"));
+           //user.setKStructureAdr(resultSet.getInt("kStructureAdr"));
            user.setLibellesadr(resultSet.getString("libellesadr"));
-           user.setKTStructureAdr(resultSet.getInt("kTStructureAdr"));
+           //user.setKTStructureAdr(resultSet.getInt("kTStructureAdr"));
            user.setLibelletsadr(resultSet.getString("libelletsadr"));
            return user;
-       }
+       }*/
    
     
     

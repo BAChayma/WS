@@ -35,85 +35,84 @@ public class ConsulterDossierContribuable {
     private String rue;
     private String cp;
     
-    private String libellesadr;
     private int kStructureAdr;
+    private String libellesadr;
     
     private int kTStructureAdr ;
     private String libelletsadr ;
 
+
     public void setNif(String nif) {
-     this.nif = nif;
+        this.nif = nif;
     }
 
     public String getNif() {
-     return nif;
+        return nif;
     }
 
     public void setNomCommerciale(String nomCommerciale) {
-     this.nomCommerciale = nomCommerciale;
+        this.nomCommerciale = nomCommerciale;
     }
 
     public String getNomCommerciale() {
-     return nomCommerciale;
+        return nomCommerciale;
     }
-    
+
     public void setRaisonSociale(String raisonSociale) {
-     this.raisonSociale = raisonSociale;
+        this.raisonSociale = raisonSociale;
     }
 
     public String getRaisonSociale() {
-     return raisonSociale;
+        return raisonSociale;
     }
 
     public void setRegistreCommerce(String registreCommerce) {
-     this.registreCommerce = registreCommerce;
+        this.registreCommerce = registreCommerce;
     }
 
     public String getRegistreCommerce() {
-     return registreCommerce;
+        return registreCommerce;
     }
-    
+
     public void setDateDebExp(Date dateDebExp) {
-     this.dateDebExp = dateDebExp;
+        this.dateDebExp = dateDebExp;
     }
 
     public Date getDateDebExp() {
-     return dateDebExp;
+        return dateDebExp;
     }
 
     public void setCapitalSociale(double capitalSociale) {
-     this.capitalSociale = capitalSociale;
+        this.capitalSociale = capitalSociale;
     }
 
     public double getCapitalSociale() {
-     return capitalSociale;
+        return capitalSociale;
     }
 
-
     public void setLibellefj(String libellefj) {
-     this.libellefj = libellefj;
+        this.libellefj = libellefj;
     }
 
     public String getLibellefj() {
-     return libellefj;
+        return libellefj;
     }
 
     public void setLibelleae(String libelleae) {
-     this.libelleae = libelleae;
+        this.libelleae = libelleae;
     }
 
     public String getLibelleae() {
-     return libelleae;
+        return libelleae;
     }
 
     public void setNationnalite(String nationnalite) {
-     this.nationnalite = nationnalite;
+        this.nationnalite = nationnalite;
     }
 
     public String getNationnalite() {
-     return nationnalite;
+        return nationnalite;
     }
-
 
     public void setKcompte(int kcompte) {
         this.kcompte = kcompte;
@@ -124,54 +123,52 @@ public class ConsulterDossierContribuable {
     }
 
     public void setRib(String rib) {
-     this.rib = rib;
+        this.rib = rib;
     }
 
     public String getRib() {
-     return rib;
+        return rib;
     }
 
     public void setNombanque(String nombanque) {
-     this.nombanque = nombanque;
+        this.nombanque = nombanque;
     }
 
     public String getNombanque() {
-     return nombanque;
+        return nombanque;
     }
 
     public void setLibelleagence(String libelleagence) {
-     this.libelleagence = libelleagence;
+        this.libelleagence = libelleagence;
     }
 
     public String getLibelleagence() {
-     return libelleagence;
+        return libelleagence;
     }
 
-
     public void setIdentifiant(String identifiant) {
-     this.identifiant = identifiant;
+        this.identifiant = identifiant;
     }
 
     public String getIdentifiant() {
-     return identifiant;
+        return identifiant;
     }
 
     public void setNom(String nom) {
-     this.nom = nom;
+        this.nom = nom;
     }
 
     public String getNom() {
-     return nom;
+        return nom;
     }
 
     public void setPrenom(String prenom) {
-     this.prenom = prenom;
+        this.prenom = prenom;
     }
 
     public String getPrenom() {
-     return prenom;
+        return prenom;
     }
-
 
     public void setKadresse(int kadresse) {
         this.kadresse = kadresse;
@@ -205,20 +202,20 @@ public class ConsulterDossierContribuable {
         return cp;
     }
 
-    public void setLibellesadr(String libellesadr) {
-        this.libellesadr = libellesadr;
-    }
-
-    public String getLibellesadr() {
-        return libellesadr;
-    }
-
     public void setKStructureAdr(int kStructureAdr) {
         this.kStructureAdr = kStructureAdr;
     }
 
     public int getKStructureAdr() {
         return kStructureAdr;
+    }
+
+    public void setLibellesadr(String libellesadr) {
+        this.libellesadr = libellesadr;
+    }
+
+    public String getLibellesadr() {
+        return libellesadr;
     }
 
     public void setKTStructureAdr(int kTStructureAdr) {
@@ -238,8 +235,8 @@ public class ConsulterDossierContribuable {
     }
 
 
-    private List<ConsulterDossierContribuable> CDcontribuables;
-    
+    /*private List<ConsulterDossierContribuable> CDcontribuables;
+
     public void setEmployees(List<ConsulterDossierContribuable> CDcontribuables) {
      this.CDcontribuables = CDcontribuables;
     }
@@ -247,12 +244,12 @@ public class ConsulterDossierContribuable {
     public List<ConsulterDossierContribuable> getCDcontribuable() {
      return CDcontribuables;
     }
-    
+
     public void addContribuable(ConsulterDossierContribuable CDcontribuable) {
          if (CDcontribuables == null) {
              CDcontribuables = new ArrayList<ConsulterDossierContribuable>();
-         } 
+         }
          CDcontribuables.add(CDcontribuable);
-     }
+     }*/
 
 }

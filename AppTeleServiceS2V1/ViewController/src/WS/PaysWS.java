@@ -2,6 +2,7 @@ package WS;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import model.Data.ActiviteEntreprise;
 import model.Data.FormeJuridique;
 
 import model.Data.Pays;
@@ -25,7 +27,46 @@ import oracle.jbo.server.ApplicationModuleImpl;
 @Path("/PaysWS")
 public class PaysWS {
     public static final String paysAM = "model.AM.PaysAM";
-    public static final String paysAM_CONFIG = "PaysLocal";
+    public static final String paysAM_CONFIG = "PaysAMLocal";
+    
+    @GET
+    @Path("/LOVPays/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public List<Pays> LOVPays () {
+            String p_nb = null ;
+            int p_kb = 0;
+            Pays list = new Pays();
+            List<Pays> ListPaysWS = new ArrayList<Pays>();
+            ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.paysAM, this.paysAM_CONFIG);
+            String req = " select  p.kpays , p.nationnalite \n" + 
+            "from pays p \n" + 
+            "order by p.nationnalite ";
+            PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
+            ResultSet resultSet = null;
+            try {
+                resultSet = createPreparedStatement.executeQuery();
+                ResultSetMetaData rsmd = resultSet.getMetaData();
+                int nbCols = rsmd.getColumnCount();
+                System.out.println("nb col " + nbCols);
+                while (resultSet.next()) {
+                    ListPaysWS.add(map1(resultSet));
+                }
+                /*resultSet = createPreparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    p_kb = resultSet.getInt(1);
+                    p_nb = resultSet.getString(2); 
+                    System.out.println( p_nb + p_kb );
+                }
+                list.setPays(p_nb);
+                list.setKpays(p_kb);*/
+            }
+            catch(SQLException e) {
+                e.printStackTrace();
+            }
+            Configuration.releaseRootApplicationModule(appModule, true);
+            return ListPaysWS;
+        }
     
     @POST
     @Produces("application/json")
@@ -60,12 +101,19 @@ public class PaysWS {
             ResultSet resultSet = null;
             try {
                 resultSet = createPreparedStatement.executeQuery();
+                ResultSetMetaData rsmd = resultSet.getMetaData();
+                int nbCols = rsmd.getColumnCount();
+                System.out.println("nb col " + nbCols);
+                while (resultSet.next()) {
+                    ListPaysWS.add(map(resultSet));
+                }
+                /*resultSet = createPreparedStatement.executeQuery();
                 while (resultSet.next()) {
                             PaysWS.setKpays(resultSet.getInt(1));
                             PaysWS.setPays(resultSet.getString(2));
                             PaysWS.setNationnalite(resultSet.getString(2));
                             ListPaysWS.add(PaysWS);
-                }
+                }*/
             }
             catch(SQLException e) {
                 e.printStackTrace();
@@ -97,4 +145,19 @@ public class PaysWS {
         Configuration.releaseRootApplicationModule(appModule, true);
         return PaysWS;
     }
+    
+    private static Pays map(ResultSet resultSet) throws SQLException {
+           Pays user = new Pays();
+           user.setKpays(resultSet.getInt("kpays"));
+           user.setPays(resultSet.getString("pays"));
+           user.setNationnalite(resultSet.getString("nationnalite"));
+           return user;
+       }
+    
+    private static Pays map1(ResultSet resultSet) throws SQLException {
+           Pays user = new Pays();
+           user.setKpays(resultSet.getInt("kpays"));
+           user.setNationnalite(resultSet.getString("nationnalite"));
+           return user;
+       }
 }

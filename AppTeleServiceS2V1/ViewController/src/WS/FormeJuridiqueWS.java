@@ -4,6 +4,7 @@ import Services.FormeJuridiqueService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -27,10 +28,12 @@ import javax.ws.rs.QueryParam;
 
 import model.Data.ActiviteEntreprise;
 
+import model.Data.Banque;
 import model.Data.CompteBancaire;
 import model.Data.FormeJuridique;
 
 import model.Data.Impot;
+import model.Data.Pays;
 import model.Data.Response;
 
 import oracle.jbo.client.Configuration;
@@ -106,6 +109,68 @@ public class FormeJuridiqueWS {
     public static final String FJAM_CONFIG = "FormejuridiqueAMLocal";
     
     @GET
+    @Path("/LOVFJ/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public List<FormeJuridique> LOVFJ () {
+            String p_nb = null ;
+            int p_kb = 0;
+            FormeJuridique list = new FormeJuridique();
+            List<FormeJuridique> ListWS = new ArrayList<FormeJuridique>();
+            ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.FJAM, this.FJAM_CONFIG);
+            String req = " select  fj.kformjuri , fj.libellefj \n" + 
+            "from formejuridique fj \n" + 
+            "order by fj.libellefj ";
+            PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
+            ResultSet resultSet = null;
+            try {
+                resultSet = createPreparedStatement.executeQuery();
+                ResultSetMetaData rsmd = resultSet.getMetaData();
+                int nbCols = rsmd.getColumnCount();
+                System.out.println("nb col " + nbCols);
+                while (resultSet.next()) {
+                    ListWS.add(map(resultSet));
+                }
+                /*resultSet = createPreparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    p_kb = resultSet.getInt(1);
+                    p_nb = resultSet.getString(2); 
+                    System.out.println( p_nb + p_kb );
+                }
+                list.setLibelleFJ(p_nb);
+                list.setKFormJuri(p_kb);*/
+            }
+            catch(SQLException e) {
+                e.printStackTrace();
+            }
+            Configuration.releaseRootApplicationModule(appModule, true);
+            return ListWS;
+        }
+    
+    @DELETE
+    @Path("/deleteFJbyID/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public FormeJuridique deleteFJbyID(@QueryParam("kformjuri") int kformjuri){
+        FormeJuridique fjWS = new FormeJuridique();
+        PreparedStatement createPreparedStatement = null;
+        ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.FJAM, this.FJAM_CONFIG);
+        createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+"delete from FormeJuridique where kformjuri = ?;",0);
+        ResultSet resultSet = null;
+        try {
+        createPreparedStatement.setInt(1, kformjuri);  
+        int result = createPreparedStatement.executeUpdate();
+        System.out.println("Number of records affected :: " + result);
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        appModule.getTransaction().commit();
+        Configuration.releaseRootApplicationModule(appModule, true);
+        return fjWS;
+    }
+    
+    @GET
     @Path("/getFJbyID/")
     @Produces("application/json")
     @Consumes("application/json")
@@ -146,14 +211,16 @@ public class FormeJuridiqueWS {
             ResultSet resultSet = null;
             try {
                 resultSet = createPreparedStatement.executeQuery();
+                ResultSetMetaData rsmd = resultSet.getMetaData();
+                int nbCols = rsmd.getColumnCount();
+                System.out.println("nb col " + nbCols);
                 while (resultSet.next()) {
                     ListFJWS.add(map(resultSet));
-                            //FJWS.setKFormJuri(resultSet.getInt(1));
-                            //FJWS.setLibelleFJ(resultSet.getString(2));
-                            //ListFJWS.add(FJWS);
                 }
             }
-            catch(SQLException e) {
+            catch (SQLException e) {
+                System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             Configuration.releaseRootApplicationModule(appModule, true);
@@ -165,14 +232,13 @@ public class FormeJuridiqueWS {
     @Consumes("application/json")
     @Path("/createFJ")
     public FormeJuridique createFJ (FormeJuridique FJWS){
-        //ActiviteEntreprise ActEseWS = new ActiviteEntreprise();
         ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.FJAM, this.FJAM_CONFIG);
         String req = " insert into FormeJuridique (kFormJuri , libelleFJ) values (FormeJuridiqueSeq.NEXTVAL , ?)" ;
         PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
         ResultSet resultSet = null;
         try {
             createPreparedStatement.setString(1, FJWS.getLibelleFJ()); 
-            createPreparedStatement.executeUpdate(); //executeQuery();
+            createPreparedStatement.executeUpdate(); 
         }catch(SQLException e) {
             e.printStackTrace();
         }
@@ -185,14 +251,13 @@ public class FormeJuridiqueWS {
     @Path("/updateFJ/")
     @Produces("application/json")
     @Consumes("application/json")
-    public FormeJuridique updateFJ(FormeJuridique FJWS ,
-                                           @QueryParam("kFormJuri") int kFormJuri){
+    public FormeJuridique updateFJ(FormeJuridique FJWS ){
         PreparedStatement createPreparedStatement = null;
         ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.FJAM, this.FJAM_CONFIG);
         createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+"update FormeJuridique set libelleFJ = ? where kFormJuri = ? ",0);
         try {
-            createPreparedStatement.setInt(1, kFormJuri); 
-            createPreparedStatement.setString(2, FJWS.getLibelleFJ());            
+            createPreparedStatement.setString(1, FJWS.getLibelleFJ());    
+            createPreparedStatement.setInt(2, FJWS.getKFormJuri()); 
             createPreparedStatement.executeUpdate();
             System.out.println(String.format("Row affected %d", createPreparedStatement.executeUpdate()));
         }

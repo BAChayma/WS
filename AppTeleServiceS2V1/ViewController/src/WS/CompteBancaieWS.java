@@ -6,15 +6,21 @@ import java.sql.SQLException;
 
 import java.text.SimpleDateFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import model.Data.Adresse;
 import model.Data.Banque;
 import model.Data.CompteBancaire;
 import model.Data.ConsulterDossierContribuable;
@@ -29,6 +35,32 @@ public class CompteBancaieWS {
     
     public static final String CompteBancaieAM = "model.AM.ComptebancaireAM";
     public static final String CompteBancaieAM_CONFIG = "ComptebancaireAMLocal";
+    
+    @PUT
+    @Path("/updateCB/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public CompteBancaire updateCB(CompteBancaire cbWS ){
+        PreparedStatement createPreparedStatement = null;
+        ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.CompteBancaieAM, this.CompteBancaieAM_CONFIG);
+        createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+"update comptebancaire cb set rib = ?, kagence = ?, kbanque = ? where kcompte = ? ",0);
+        try { 
+            createPreparedStatement.setString(1, cbWS.getRib());
+            createPreparedStatement.setInt(2, cbWS.getKagence());
+            createPreparedStatement.setInt(3, cbWS.getKbanque());
+            createPreparedStatement.setInt(4, cbWS.getKcompte());
+            System.out.println(cbWS.getRib() + cbWS.getKagence() + cbWS.getKbanque() );
+           
+            createPreparedStatement.executeUpdate();
+            System.out.println(String.format("Row affected %d", createPreparedStatement.executeUpdate()));
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        appModule.getTransaction().commit();
+        Configuration.releaseRootApplicationModule(appModule, true);
+        return cbWS;
+    }
     
     @GET
     @Path("/getCBbyID/")
@@ -63,25 +95,42 @@ public class CompteBancaieWS {
         return cbWS;
     }
     
-    @PUT
-    @Path("/CompteBancaire/")
+    @POST
     @Produces("application/json")
     @Consumes("application/json")
-    public CompteBancaire updateCB(CompteBancaire cbWS ,
-                                   @QueryParam("kcompte") int kcompte){
+    @Path("/createCB")
+    public CompteBancaire createCB (CompteBancaire cbWS){
+        ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.CompteBancaieAM, this.CompteBancaieAM_CONFIG);
+        String req = " insert into CompteBancaire (kcompte,rib,kagence,kbanque) values (CompteBancaireSeq.NEXTVAL ,?,?,?)" ;
+        PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
+        ResultSet resultSet = null;
+        try {
+            createPreparedStatement.setString(1, cbWS.getRib()); 
+            createPreparedStatement.setInt(2, cbWS.getKagence());
+            createPreparedStatement.setInt(3, cbWS.getKbanque());
+            createPreparedStatement.executeUpdate();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        appModule.getTransaction().commit();
+        Configuration.releaseRootApplicationModule(appModule, true);
+        return cbWS;
+    }
+    
+    @DELETE
+    @Path("/deleteCBbyID/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public CompteBancaire deleteCBbyID(@QueryParam("kcompte") int kcompte){
+        CompteBancaire cbWS = new CompteBancaire();
         PreparedStatement createPreparedStatement = null;
         ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.CompteBancaieAM, this.CompteBancaieAM_CONFIG);
-        createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+"update comptebancaire cb set rib = ?, kagence = ?, kbanque = ? where kcompte = ? ",0);
+        createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+"delete from comptebancaire where kcompte = ?;",0);
+        ResultSet resultSet = null;
         try {
-            createPreparedStatement.setInt(1, kcompte); 
-            createPreparedStatement.setString(2, cbWS.getRib());
-            createPreparedStatement.setInt(3, cbWS.getKagence());
-            createPreparedStatement.setInt(4, cbWS.getKbanque());
-            
-            System.out.println(cbWS.getRib() + cbWS.getKagence() + cbWS.getKbanque() );
-           
-            createPreparedStatement.executeUpdate();
-            System.out.println(String.format("Row affected %d", createPreparedStatement.executeUpdate()));
+        createPreparedStatement.setInt(1, kcompte);  
+        int result = createPreparedStatement.executeUpdate();
+        System.out.println("Number of records affected :: " + result);
         }
         catch(SQLException e) {
             e.printStackTrace();
@@ -91,5 +140,39 @@ public class CompteBancaieWS {
         return cbWS;
     }
     
+    @GET
+    @Path("/CBInfoContribuableById/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public List<CompteBancaire> CBInfoContribuableById (@QueryParam("nif") String nif) {
+        List<CompteBancaire> ListCbWS = new ArrayList<CompteBancaire>();
+        ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.CompteBancaieAM, this.CompteBancaieAM_CONFIG);
+        String req = " select cb.kcompte, cb.rib , b.nombanque , a.libelleagence \n" + 
+        "from Contribuable c ,comptebancaire cb , banque b , agence a \n" + 
+        "where c.kcnc = cb.kcnc and cb.kbanque = b.kbanque and cb.kagence = a.kagence and c.nif = ? " ;
+        PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
+        ResultSet resultSet = null;
+        try {
+            createPreparedStatement.setString(1, nif);  
+            resultSet = createPreparedStatement.executeQuery();
+            while (resultSet.next()) {  
+                ListCbWS.add(mapCB(resultSet));
+            }
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        Configuration.releaseRootApplicationModule(appModule, true);
+        return ListCbWS;
+    }
+    
+    private static CompteBancaire mapCB(ResultSet resultSet) throws SQLException {
+           CompteBancaire user = new CompteBancaire();
+           user.setKcompte(resultSet.getInt("kcompte"));
+           user.setRib(resultSet.getString("rib"));
+           user.setNomBanque(resultSet.getString("nomBanque"));
+           user.setLibelleAgence(resultSet.getString("libelleAgence"));
+           return user;
+       }
     
 }

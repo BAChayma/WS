@@ -316,15 +316,15 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <url n="id" path="../../../../AppData/Roaming/JDeveloper/system12.1.3.0.41.170120.1047/o.jdeveloper/CROS.library"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
             <value n="id" v="Java-json.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
             <value n="id" v="Jersey-json-1.1.5.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" protocol="file" path="/C:/Users/chayma/AppData/Roaming/JDeveloper/system12.1.3.0.41.170120.1047/o.jdeveloper/CROS.library"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
@@ -519,15 +519,15 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <url n="id" path="../../../../AppData/Roaming/JDeveloper/system12.1.3.0.41.170120.1047/o.jdeveloper/CROS.library"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
             <value n="id" v="Java-json.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
             <value n="id" v="Jersey-json-1.1.5.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <url n="id" protocol="file" path="/C:/Users/chayma/AppData/Roaming/JDeveloper/system12.1.3.0.41.170120.1047/o.jdeveloper/CROS.library"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
