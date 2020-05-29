@@ -83,10 +83,10 @@ public class ActiviteEntrepriseWS {
         }
     
     @DELETE
-    @Path("/deleteCBbyID/")
+    @Path("/deleteAEbyID/")
     @Produces("application/json")
     @Consumes("application/json")
-    public ActiviteEntreprise deleteCBbyID(@QueryParam("kactent") int kactent){
+    public ActiviteEntreprise deleteAEbyID(@QueryParam("kactent") int kactent){
         ActiviteEntreprise aeWS = new ActiviteEntreprise();
         PreparedStatement createPreparedStatement = null;
         ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.ActiviteEntrepriseAM, this.ActiviteEntrepriseAM_CONFIG);

@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class InfoContribuable {
     private String nif;
-    
+    private int kcnc;
     private String nomCommerciale;
     private String raisonSociale;
     private String registreCommerce;
@@ -29,6 +29,14 @@ public class InfoContribuable {
 
     public String getNif() {
         return nif;
+    }
+    
+    public void setKcnc(int kcnc) {
+        this.kcnc = kcnc;
+    }
+
+    public int getKcnc() {
+        return kcnc;
     }
 
     public void setNomCommerciale(String nomCommerciale) {

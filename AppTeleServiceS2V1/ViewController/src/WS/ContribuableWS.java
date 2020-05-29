@@ -57,6 +57,56 @@ public class ContribuableWS {
     public static final String contribuableAM = "model.AM.ContribuableAM";
     public static final String contribuableAM_CONFIG = "ContribuableAMLocal";
     
+    @GET
+    @Path("/InfoContriDclByNif/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public InfoContribuable InfoContriDclByNif (@QueryParam("nif") String nif) {
+        Date p_dbexp = new Date();
+        String p_nif = null, p_rs = null, p_nc = null, p_rc = null, p_lfj = null, p_lae = null, p_nat = null, p_rue = null, p_cp = null, p_libsadr = null, libtsadr = null;
+        String p_rib = null, p_nb = null, p_na = null, p_idPer = null, p_nomPer = null, p_prenomPer = null;
+        double p_cs = 0;
+        int p_kcnc = 0, p_kc = 0, p_kadr = 0, p_numrue = 0;
+        InfoContribuable contriWS = new InfoContribuable();
+        ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.contribuableAM, this.contribuableAM_CONFIG);
+        String req = " select c.nif, c.kcnc, c.nomCommerciale,c.raisonSociale,c.registreCommerce,c.dateDebExp,c.capitalSociale,fj.libellefj , ae.libelleae , p.nationnalite \n" + 
+        "from Contribuable c , FormeJuridique fj , ActiviteEntreprise ae , Pays p  \n" + 
+        "where c.kformjuri = fj.kformjuri and c.kcnc = ae.kcnc and c.kcnc = p.kcnc and c.nif = ? " ;
+        PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
+        ResultSet resultSet = null;
+        try {
+            createPreparedStatement.setString(1, nif);  
+            resultSet = createPreparedStatement.executeQuery();
+            if (resultSet.next()) {
+                p_nif = resultSet.getString(1);
+                p_kcnc = resultSet.getInt(2);
+                p_nc = resultSet.getString(3);
+                p_rs = resultSet.getString(4);
+                p_rc = resultSet.getString(5);
+                p_dbexp = resultSet.getDate(6);
+                p_cs = resultSet.getDouble(7);
+                p_lfj = resultSet.getString(8);
+                p_lae = resultSet.getString(9);
+                p_nat = resultSet.getString(10);    
+            }
+            contriWS.setKcnc(p_kcnc);
+            contriWS.setNif(p_nif);
+            contriWS.setNomCommerciale(p_nc);
+            contriWS.setRaisonSociale(p_rs);
+            contriWS.setRegistreCommerce(p_rc);
+            contriWS.setDateDebExp(p_dbexp);
+            contriWS.setCapitalSociale(p_cs);
+            contriWS.setLibellefj(p_lfj);
+            contriWS.setLibelleae(p_lae);
+            contriWS.setNationnalite(p_nat);
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        Configuration.releaseRootApplicationModule(appModule, true);
+        return contriWS;
+    }
+    
     
     @GET
     @Path("/InfoContribuableById/")
