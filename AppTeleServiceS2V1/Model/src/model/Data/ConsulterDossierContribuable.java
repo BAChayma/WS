@@ -1,8 +1,12 @@
 package model.Data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,16 +25,53 @@ public class ConsulterDossierContribuable {
     private String libelleae;
     private String nationnalite;
     
-    private int kcompte;
-    private String rib;
-    private String nombanque;
-    private String libelleagence;
-    
     private String identifiant; 
     private String nom;
     private String prenom;
+
+    /*private ArrayList<Adresse> Ladr;
+    private List<CompteBancaire> Lcb;
+    private List<Personne> Lact;*/
     
-    private int kadresse;
+    private List<List<Adresse>> Ladr ;
+    private List<List<CompteBancaire>> Lcb ;
+    private List<List<Personne>> Lact ;
+
+
+    public void setLadr(List<List<Adresse>> Ladr) {
+        this.Ladr = Ladr;
+    }
+
+    public List<List<Adresse>> getLadr() {
+        return Ladr;
+    }
+
+    public void setLcb(List<List<CompteBancaire>> Lcb) {
+        this.Lcb = Lcb;
+    }
+
+    public List<List<CompteBancaire>> getLcb() {
+        return Lcb;
+    }
+
+    public void setLact(List<List<Personne>> Lact) {
+        this.Lact = Lact;
+    }
+
+    public List<List<Personne>> getLact() {
+        return Lact;
+    }
+
+    //private List<ConsulterDossierContribuable> Lcontribuables;
+
+    /*private int kcompte;
+    private String rib;
+    private String nombanque;
+    private String libelleagence;
+    private int kagence;
+    private int kbanque;*/
+    
+    /*private int kadresse;
     private int numRue;
     private String rue;
     private String cp;
@@ -39,7 +80,7 @@ public class ConsulterDossierContribuable {
     private String libellesadr;
     
     private int kTStructureAdr ;
-    private String libelletsadr ;
+    private String libelletsadr ;*/
 
 
     public void setNif(String nif) {
@@ -114,37 +155,7 @@ public class ConsulterDossierContribuable {
         return nationnalite;
     }
 
-    public void setKcompte(int kcompte) {
-        this.kcompte = kcompte;
-    }
-
-    public int getKcompte() {
-        return kcompte;
-    }
-
-    public void setRib(String rib) {
-        this.rib = rib;
-    }
-
-    public String getRib() {
-        return rib;
-    }
-
-    public void setNombanque(String nombanque) {
-        this.nombanque = nombanque;
-    }
-
-    public String getNombanque() {
-        return nombanque;
-    }
-
-    public void setLibelleagence(String libelleagence) {
-        this.libelleagence = libelleagence;
-    }
-
-    public String getLibelleagence() {
-        return libelleagence;
-    }
+    
 
     public void setIdentifiant(String identifiant) {
         this.identifiant = identifiant;
@@ -170,69 +181,7 @@ public class ConsulterDossierContribuable {
         return prenom;
     }
 
-    public void setKadresse(int kadresse) {
-        this.kadresse = kadresse;
-    }
-
-    public int getKadresse() {
-        return kadresse;
-    }
-
-    public void setNumRue(int numRue) {
-        this.numRue = numRue;
-    }
-
-    public int getNumRue() {
-        return numRue;
-    }
-
-    public void setRue(String rue) {
-        this.rue = rue;
-    }
-
-    public String getRue() {
-        return rue;
-    }
-
-    public void setCp(String cp) {
-        this.cp = cp;
-    }
-
-    public String getCp() {
-        return cp;
-    }
-
-    public void setKStructureAdr(int kStructureAdr) {
-        this.kStructureAdr = kStructureAdr;
-    }
-
-    public int getKStructureAdr() {
-        return kStructureAdr;
-    }
-
-    public void setLibellesadr(String libellesadr) {
-        this.libellesadr = libellesadr;
-    }
-
-    public String getLibellesadr() {
-        return libellesadr;
-    }
-
-    public void setKTStructureAdr(int kTStructureAdr) {
-        this.kTStructureAdr = kTStructureAdr;
-    }
-
-    public int getKTStructureAdr() {
-        return kTStructureAdr;
-    }
-
-    public void setLibelletsadr(String libelletsadr) {
-        this.libelletsadr = libelletsadr;
-    }
-
-    public String getLibelletsadr() {
-        return libelletsadr;
-    }
+    
 
 
     /*private List<ConsulterDossierContribuable> CDcontribuables;

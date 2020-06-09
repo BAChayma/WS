@@ -144,6 +144,20 @@
     AssociationOtherEnd="model.EO.SysC0014163Assoc.ContribuableEO"
     Type="oracle.jbo.RowIterator"
     IsUpdateable="false"/>
+  <AccessorAttribute
+    Name="ContribuableuserEO"
+    Association="model.EO.SysC0015661Assoc"
+    AssociationEnd="model.EO.SysC0015661Assoc.ContribuableuserEO"
+    AssociationOtherEnd="model.EO.SysC0015661Assoc.ContribuableEO"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <AccessorAttribute
+    Name="ImpotcontribuableEO"
+    Association="model.EO.SysC0015657Assoc"
+    AssociationEnd="model.EO.SysC0015657Assoc.ImpotcontribuableEO"
+    AssociationOtherEnd="model.EO.SysC0015657Assoc.ContribuableEO"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
   <Key
     Name="SysC0014151"
     PrimaryKey="true">

@@ -7,6 +7,7 @@ import Services.ImpotService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 
@@ -28,6 +29,7 @@ import javax.ws.rs.Produces;
 
 import javax.ws.rs.QueryParam;
 
+import model.Data.ActiviteEntreprise;
 import model.Data.Impot;
 import model.Data.Pays;
 import model.Data.Response;
@@ -41,7 +43,36 @@ import oracle.jbo.server.ApplicationModuleImpl;
 
 public class ImpotWS{
     public static final String impotAM = "model.AM.ImpotAM";
-    public static final String impotAM_CONFIG = "ImpotLocal";
+    public static final String impotAM_CONFIG = "ImpotAMLocal";
+    
+    @GET
+    @Path("/LOVImpot/")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public List<Impot> LOVImpot () {
+            Impot list = new Impot();
+            List<Impot> ListWS = new ArrayList<Impot>();
+            ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.impotAM, this.impotAM_CONFIG);
+            String req = " select  i.kimpot , i.abriviation , i.taux \n" + 
+            "from Impot i \n" + 
+            "order by i.abriviation ";
+            PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
+            ResultSet resultSet = null;
+            try {
+                resultSet = createPreparedStatement.executeQuery();
+                ResultSetMetaData rsmd = resultSet.getMetaData();
+                int nbCols = rsmd.getColumnCount();
+                System.out.println("nb col " + nbCols);
+                while (resultSet.next()) {
+                    ListWS.add(map(resultSet));
+                }
+            }
+            catch(SQLException e) {
+                e.printStackTrace();
+            }
+            Configuration.releaseRootApplicationModule(appModule, true);
+            return ListWS;
+        }
     
     @POST
     @Path("/createImpot")
@@ -129,6 +160,14 @@ public class ImpotWS{
         Configuration.releaseRootApplicationModule(appModule, true);
         return impotWS;
     }
+    
+    private static Impot map(ResultSet resultSet) throws SQLException {
+           Impot user = new Impot();
+           user.setKimpot(resultSet.getInt("kimpot"));
+           user.setAbriviation(resultSet.getString("abriviation"));
+           user.setTaux(resultSet.getDouble("taux"));
+           return user;
+       }
     
 }
 

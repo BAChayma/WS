@@ -76,6 +76,13 @@
     AssociationOtherEnd="model.EO.SysC0014138Assoc.UtilisateurEO"
     Type="oracle.jbo.server.EntityImpl"
     IsUpdateable="true"/>
+  <AccessorAttribute
+    Name="ContribuableuserEO"
+    Association="model.EO.SysC0015662Assoc"
+    AssociationEnd="model.EO.SysC0015662Assoc.ContribuableuserEO"
+    AssociationOtherEnd="model.EO.SysC0015662Assoc.UtilisateurEO"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
   <Key
     Name="SysC0014137"
     PrimaryKey="true">

@@ -76,6 +76,13 @@
     AssociationOtherEnd="model.EO.SysC0014160Assoc.ImpotEO"
     Type="oracle.jbo.RowIterator"
     IsUpdateable="false"/>
+  <AccessorAttribute
+    Name="ImpotcontribuableEO"
+    Association="model.EO.SysC0015658Assoc"
+    AssociationEnd="model.EO.SysC0015658Assoc.ImpotcontribuableEO"
+    AssociationOtherEnd="model.EO.SysC0015658Assoc.ImpotEO"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
   <Key
     Name="SysC0014129"
     PrimaryKey="true">

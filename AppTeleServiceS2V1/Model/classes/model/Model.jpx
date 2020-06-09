@@ -31,6 +31,8 @@
     <Attr Name="_appModuleNames17" Value="model.AM.TypestructprivilegeAM"/>
     <Attr Name="_appModuleNames18" Value="model.AM.TypestructureadrAM"/>
     <Attr Name="_appModuleNames19" Value="model.AM.UtilisateurAM"/>
+    <Attr Name="_appModuleNames20" Value="model.AM.ContribuableuserAM"/>
+    <Attr Name="_appModuleNames21" Value="model.AM.ImpotcontribuableAM"/>
   </DesignTime>
   <Containee
     Name="AM"

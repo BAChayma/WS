@@ -38,7 +38,11 @@ import java.sql.Timestamp;
 
 import java.text.ParseException;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+
+import java.util.Set;
 
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -56,6 +60,87 @@ public class ContribuableWS {
     
     public static final String contribuableAM = "model.AM.ContribuableAM";
     public static final String contribuableAM_CONFIG = "ContribuableAMLocal";
+    
+    /*@GET
+    @Produces("application/json")
+    @Path("/RechercheContribuable/")
+    public List<ConsulterDossierContribuable> ContribuableById (@QueryParam("nif") String nif) {
+            ArrayList<ConsulterDossierContribuable> al1 = new ArrayList<>();
+            SimpleDateFormat spf = new SimpleDateFormat("dd/MM/yyyy");
+            ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.contribuableAM, this.contribuableAM_CONFIG);
+            String req = " select c.nomCommerciale,c.raisonSociale,c.registreCommerce,c.dateDebExp,c.capitalSociale,\n" + 
+            "       fj.libellefj , ae.libelleae , p.nationnalite , cb.kcompte, cb.rib , b.nombanque , a.libelleagence , \n" + 
+            "       per.identifiant , per.nom , per.prenom ,\n" + 
+            "       adr.kadresse, adr.numrue , adr.rue , adr.cp , sadr.libellesadr , tsadr.libelletsadr\n" + 
+            "from Contribuable c , FormeJuridique fj , ActiviteEntreprise ae , Pays p , comptebancaire cb , banque b , agence a ,Personne per,\n" + 
+            "     adresse adr , structureadr sadr , typestructureadr tsadr\n" + 
+            "where c.kformjuri = fj.kformjuri and c.kcnc = ae.kcnc and c.kcnc = p.kcnc\n" + 
+            "      and c.kcnc = cb.kcnc and cb.kbanque = b.kbanque and cb.kagence = a.kagence\n" + 
+            "      and sadr.ktstructureadr = tsadr.ktstructureadr and adr.kstructureadr = sadr.kstructureadr and c.kcnc = adr.kcnc\n" + 
+            "      and per.kcnc = c.kcnc and per.qualite = 'responsable'  and c.nif = ? " ;
+            PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
+            ResultSet resultSet = null;
+            try {
+                createPreparedStatement.setString(1, nif);  
+                resultSet = createPreparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    ConsulterDossierContribuable user = new ConsulterDossierContribuable();
+                    user.setNomCommerciale(resultSet.getString("nomCommerciale"));
+                    user.setRaisonSociale(resultSet.getString("raisonSociale"));
+                    user.setRegistreCommerce(resultSet.getString("registreCommerce"));
+                    user.setDateDebExp(resultSet.getDate("dateDebExp"));
+                    user.setCapitalSociale(resultSet.getDouble("capitalSociale"));
+                    user.setLibellefj(resultSet.getString("libelleFJ"));
+                    user.setLibelleae(resultSet.getString("libelleAE"));
+                    user.setNationnalite(resultSet.getString("nationnalite"));
+                    al1.add(user);
+                    ArrayList<ConsulterDossierContribuable> contriList = new ArrayList<>(Arrays.asList(user));
+                    
+                    Adresse user1 = new Adresse(); 
+                    ArrayList<Adresse> user11 = new ArrayList<Adresse>();
+                    List<List<Adresse>> al2 = new ArrayList<List<Adresse>>();
+                    user1.setKadresse(resultSet.getInt("kadresse"));
+                    user1.setKadresse(resultSet.getInt("kadresse"));
+                    user1.setNumRue(resultSet.getInt("numRue"));
+                    user1.setRue(resultSet.getString("rue"));
+                    user1.setCp(resultSet.getString("cp"));
+                    user1.setLibellesadr(resultSet.getString("libellesadr"));
+                    user1.setLibelletsadr(resultSet.getString("libelletsadr"));
+                    user11.add(user1);
+                    
+                    CompteBancaire user2 = new CompteBancaire();
+                    ArrayList<CompteBancaire> user22 = new ArrayList<CompteBancaire>();
+                    List<List<CompteBancaire>> al3 = new ArrayList<List<CompteBancaire>>();
+                    user2.setKcompte(resultSet.getInt("kcompte"));
+                    user2.setRib(resultSet.getString("rib"));
+                    user2.setNomBanque(resultSet.getString("nomBanque"));
+                    user2.setLibelleAgence(resultSet.getString("libelleAgence"));
+                    user22.add(user2);
+                   
+                   
+                    /*user.setLadr(adrList);
+                    user.setLcb( cbList);
+                    user.setLadr(al2);
+
+                    user.setLadr((List) user11);
+                    user.setLcb((List) user22);
+                    al1.add(user);
+                    
+                    //ListWS.add(map(resultSet));
+                    
+                    /*ListWS.add(mapContri(resultSet));
+                    ListADR.add(mapAdr(resultSet));
+                    ListWS.addAll(ListADR); 
+                    System.out.println(ListWS);
+                
+                }
+            }
+            catch(SQLException e) {
+                e.printStackTrace();
+            }
+            Configuration.releaseRootApplicationModule(appModule, true);
+            return al1;
+        }*/
     
     @GET
     @Path("/InfoContriDclByNif/")
@@ -159,97 +244,6 @@ public class ContribuableWS {
         Configuration.releaseRootApplicationModule(appModule, true);
         return contriWS;
     }
-    
-    
-    
-    @GET
-    @Produces("application/json")
-    @Path("/ContribuableById/")
-    public ConsulterDossierContribuable ContribuableById (@QueryParam("nif") String nif) {
-            Date p_dbexp = new Date();  
-            ConsulterDossierContribuable contriWS = new ConsulterDossierContribuable();
-            Adresse adrWS = new Adresse();
-            String p_rs = null, p_nc = null, p_rc = null, p_lfj = null, p_lae = null, p_nat = null, p_rue = null, p_cp = null, p_libsadr = null, libtsadr = null;
-            String p_rib = null, p_nb = null, p_na = null, p_idPer = null, p_nomPer = null, p_prenomPer = null;
-            double p_cs = 0;
-            int p_kc = 0, p_kadr = 0, p_numrue = 0;
-            //, p_ksadr = 0, p_ktsadr = 0
-            SimpleDateFormat spf = new SimpleDateFormat("dd/MM/yyyy");
-            ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.contribuableAM, this.contribuableAM_CONFIG);
-            String req = " select c.nomCommerciale,c.raisonSociale,c.registreCommerce,c.dateDebExp,c.capitalSociale,\n" + 
-            "       fj.libellefj , ae.libelleae , p.nationnalite , cb.kcompte, cb.rib , b.nombanque , a.libelleagence , \n" + 
-            "       per.identifiant , per.nom , per.prenom ,\n" + 
-            "       adr.kadresse, adr.numrue , adr.rue , adr.cp , sadr.libellesadr , tsadr.libelletsadr\n" + 
-            "from Contribuable c , FormeJuridique fj , ActiviteEntreprise ae , Pays p , comptebancaire cb , banque b , agence a ,Personne per,\n" + 
-            "     adresse adr , structureadr sadr , typestructureadr tsadr\n" + 
-            "where c.kformjuri = fj.kformjuri and c.kcnc = ae.kcnc and c.kcnc = p.kcnc\n" + 
-            "      and c.kcnc = cb.kcnc and cb.kbanque = b.kbanque and cb.kagence = a.kagence\n" + 
-            "      and sadr.ktstructureadr = tsadr.ktstructureadr and adr.kstructureadr = sadr.kstructureadr and c.kcnc = adr.kcnc\n" + 
-            "      and per.kcnc = c.kcnc and per.qualite = 'responsable' and c.nif = ? " ;
-            PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
-            ResultSet resultSet = null;
-            try {
-                createPreparedStatement.setString(1, nif);  
-                resultSet = createPreparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    p_nc = resultSet.getString(1);
-                    p_rs = resultSet.getString(2);
-                    p_rc = resultSet.getString(3);
-                    p_dbexp = resultSet.getDate(4);
-                    p_cs = resultSet.getDouble(5);
-                    p_lfj = resultSet.getString(6);
-                    p_lae = resultSet.getString(7);
-                    p_nat = resultSet.getString(8);
-                    p_kc = resultSet.getInt(9);
-                    p_rib = resultSet.getString(10);
-                    p_nb = resultSet.getString(11);
-                    p_na = resultSet.getString(12);
-                    p_idPer = resultSet.getString(13);
-                    p_nomPer = resultSet.getString(14);
-                    p_prenomPer = resultSet.getString(15);  
-                    p_kadr = resultSet.getInt(16);
-                    p_numrue = resultSet.getInt(17);
-                    p_rue = resultSet.getString(18);
-                    p_cp = resultSet.getString(19);
-                    //p_ksadr = resultSet.getInt(20);
-                    p_libsadr = resultSet.getString(20);
-                    //p_ktsadr = resultSet.getInt(22);
-                    libtsadr = resultSet.getString(21);
-                    
-                    System.out.println( p_nc +  p_rs  + p_rc + p_dbexp  + p_cs + p_lfj + p_lae + p_nat + p_kc + p_rib + p_nb + p_na + p_idPer + p_nomPer + p_prenomPer + p_kadr + p_numrue + p_rue + p_cp + p_libsadr +  libtsadr);
-                }
-                contriWS.setNomCommerciale(p_nc);
-                contriWS.setRaisonSociale(p_rs);
-                contriWS.setRegistreCommerce(p_rc);
-                contriWS.setDateDebExp(p_dbexp);
-                contriWS.setCapitalSociale(p_cs);
-                contriWS.setLibellefj(p_lfj);
-                contriWS.setLibelleae(p_lae);
-                contriWS.setNationnalite(p_nat);
-                contriWS.setKcompte(p_kc);
-                contriWS.setRib(p_rib);
-                contriWS.setNombanque(p_nb);
-                contriWS.setLibelleagence(p_na);
-                contriWS.setIdentifiant(p_idPer);
-                contriWS.setNom(p_nomPer);
-                contriWS.setPrenom(p_prenomPer);
-                
-                contriWS.setKadresse(p_kadr);
-                contriWS.setNumRue(p_numrue);
-                contriWS.setRue(p_rue);
-                contriWS.setCp(p_cp);
-                //contriWS.setKStructureAdr(p_ksadr);
-                contriWS.setLibellesadr(p_libsadr);
-                //contriWS.setKTStructureAdr(p_ktsadr);
-                contriWS.setLibelletsadr(libtsadr);
-                //contriWS.setLadr();
-            }
-            catch(SQLException e) {
-                e.printStackTrace();
-            }
-            Configuration.releaseRootApplicationModule(appModule, true);
-            return contriWS;
-        }
    
     @PUT
     @Path("/updateContribuable/")
@@ -286,6 +280,120 @@ public class ContribuableWS {
         Configuration.releaseRootApplicationModule(appModule, true);
         return contriWS;
     }
+    
+   /* private static Adresse mapAdr(ResultSet resultSet) throws SQLException {
+           Adresse user = new Adresse();
+           user.setKadresse(resultSet.getInt("kadresse"));
+           user.setNumRue(resultSet.getInt("numRue"));
+           user.setRue(resultSet.getString("rue"));
+           user.setCp(resultSet.getString("cp"));
+           user.setLibellesadr(resultSet.getString("libellesadr"));
+           user.setLibelletsadr(resultSet.getString("libelletsadr"));
+           return user;
+       }
+    
+    private static ConsulterDossierContribuable mapContri(ResultSet resultSet) throws SQLException {
+           ConsulterDossierContribuable user = new ConsulterDossierContribuable();
+           user.setNomCommerciale(resultSet.getString("nomCommerciale"));
+           user.setRaisonSociale(resultSet.getString("raisonSociale"));
+           user.setRegistreCommerce(resultSet.getString("registreCommerce"));
+           user.setDateDebExp(resultSet.getDate("dateDebExp"));
+           user.setCapitalSociale(resultSet.getDouble("capitalSociale"));
+           user.setLibellefj(resultSet.getString("libelleFJ"));
+           user.setLibelleae(resultSet.getString("libelleAE"));
+           user.setNationnalite(resultSet.getString("nationnalite"));
+           return user;
+    }
+    
+    
+    
+    private static List<ConsulterDossierContribuable>  map(ResultSet resultSet) throws SQLException {
+        
+           ConsulterDossierContribuable user = new ConsulterDossierContribuable();
+           ArrayList<ConsulterDossierContribuable> al1 = new ArrayList<>();
+           user.setNomCommerciale(resultSet.getString("nomCommerciale"));
+           user.setRaisonSociale(resultSet.getString("raisonSociale"));
+           user.setRegistreCommerce(resultSet.getString("registreCommerce"));
+           user.setDateDebExp(resultSet.getDate("dateDebExp"));
+           user.setCapitalSociale(resultSet.getDouble("capitalSociale"));
+           user.setLibellefj(resultSet.getString("libelleFJ"));
+           user.setLibelleae(resultSet.getString("libelleAE"));
+           user.setNationnalite(resultSet.getString("nationnalite"));
+           al1.add(user);
+           ArrayList<ConsulterDossierContribuable> contriList = new ArrayList<>(Arrays.asList(user));
+           
+           Adresse user1 = new Adresse(); 
+           ArrayList<Adresse> al2 = new ArrayList<>();
+           user1.setKadresse(resultSet.getInt("kadresse"));
+           user1.setKadresse(resultSet.getInt("kadresse"));
+           user1.setNumRue(resultSet.getInt("numRue"));
+           user1.setRue(resultSet.getString("rue"));
+           user1.setCp(resultSet.getString("cp"));
+           user1.setLibellesadr(resultSet.getString("libellesadr"));
+           user1.setLibelletsadr(resultSet.getString("libelletsadr"));
+           al2.add(user1);
+           ArrayList<Adresse> adrList = new ArrayList<>(Arrays.asList(user1));
+           
+           CompteBancaire user2 = new CompteBancaire();
+           ArrayList<CompteBancaire> al3 = new ArrayList<>();
+           user2.setKcompte(resultSet.getInt("kcompte"));
+           user2.setRib(resultSet.getString("rib"));
+           user2.setNomBanque(resultSet.getString("nomBanque"));
+           user2.setLibelleAgence(resultSet.getString("libelleAgence"));
+           al3.add(user2);
+           ArrayList<CompteBancaire> cbList = new ArrayList<>(Arrays.asList(user2));
+           
+           //user.setLadr(adrList);
+           //user.setLcb( cbList);
+           al1.add(user);
+        
+          /* ArrayList<ConsulterDossierContribuable> ListWS = new ArrayList<ConsulterDossierContribuable>();
+           List<ArrayList<ConsulterDossierContribuable>> listOfLists = new ArrayList<ArrayList<ConsulterDossierContribuable>>();
+           
+           ConsulterDossierContribuable user = new ConsulterDossierContribuable();
+           user.setNomCommerciale(resultSet.getString("nomCommerciale"));
+           user.setRaisonSociale(resultSet.getString("raisonSociale"));
+           user.setRegistreCommerce(resultSet.getString("registreCommerce"));
+           user.setDateDebExp(resultSet.getDate("dateDebExp"));
+           user.setCapitalSociale(resultSet.getDouble("capitalSociale"));
+           user.setLibellefj(resultSet.getString("libelleFJ"));
+           user.setLibelleae(resultSet.getString("libelleAE"));
+           user.setNationnalite(resultSet.getString("nationnalite"));
+                     
+           List<ArrayList<Adresse>> listOfLists1 = new ArrayList<ArrayList<Adresse>>(); 
+           ArrayList<Adresse> ListADR = new ArrayList<Adresse>();
+           Adresse user1 = new Adresse(); 
+           Set <Adresse> adresseSet = new HashSet<>();
+           user1.setKadresse(resultSet.getInt("kadresse"));
+           user1.setKadresse(resultSet.getInt("kadresse"));
+           user1.setNumRue(resultSet.getInt("numRue"));
+           user1.setRue(resultSet.getString("rue"));
+           user1.setCp(resultSet.getString("cp"));
+           user1.setLibellesadr(resultSet.getString("libellesadr"));
+           user1.setLibelletsadr(resultSet.getString("libelletsadr"));
+           adresseSet.add(user1);
+           
+           List<ArrayList<CompteBancaire>> listOfLists2 = new ArrayList<ArrayList<CompteBancaire>>(); 
+           ArrayList<CompteBancaire> ListCB = new ArrayList<CompteBancaire>();
+           CompteBancaire user2 = new CompteBancaire();
+           user2.setKcompte(resultSet.getInt("kcompte"));
+           user2.setRib(resultSet.getString("rib"));
+           user2.setNomBanque(resultSet.getString("nomBanque"));
+           user2.setLibelleAgence(resultSet.getString("libelleAgence"));
+        
+           ListADR.add(user1);
+           ListCB.add(user2);
+           
+           user.setLadr(ListADR);
+           user.setLcb( ListCB);
+           
+           ListWS.add(user);
+           
+           ListWS.retainAll(ListADR);
+           ListWS.retainAll(ListCB);
+           
+           return  al1; user;
+       }
     
     /*private static ConsulterDossierContribuable map(ResultSet resultSet) throws SQLException {
            ConsulterDossierContribuable user = new ConsulterDossierContribuable();

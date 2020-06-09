@@ -260,4 +260,30 @@
          <Custom ns0:JDBCDataSource="java:comp/env/jdbc/Connection1DS" xmlns:ns0="http://xmlns.oracle.com/bc4j/configuration"/>
       </AppModuleConfig>
    </AppModuleConfigBag>
+   <AppModuleConfigBag ApplicationName="model.AM.ContribuableuserAM">
+      <AppModuleConfig name="ContribuableuserAMLocal" jbo.project="model.Model" ApplicationName="model.AM.ContribuableuserAM" DeployPlatform="LOCAL">
+         <Database jbo.TypeMapEntries="OracleApps"/>
+         <Security AppModuleJndiName="model.AM.ContribuableuserAM"/>
+         <Custom ns0:JDBCDataSource="java:comp/env/jdbc/Connection1DS" xmlns:ns0="http://xmlns.oracle.com/bc4j/configuration"/>
+      </AppModuleConfig>
+      <AppModuleConfig name="ContribuableuserAMShared" jbo.project="model.Model" ApplicationName="model.AM.ContribuableuserAM" DeployPlatform="LOCAL">
+         <AM-Pooling jbo.ampool.maxpoolsize="1" jbo.ampool.isuseexclusive="false"/>
+         <Database jbo.TypeMapEntries="OracleApps"/>
+         <Security AppModuleJndiName="model.AM.ContribuableuserAM"/>
+         <Custom ns0:JDBCDataSource="java:comp/env/jdbc/Connection1DS" xmlns:ns0="http://xmlns.oracle.com/bc4j/configuration"/>
+      </AppModuleConfig>
+   </AppModuleConfigBag>
+   <AppModuleConfigBag ApplicationName="model.AM.ImpotcontribuableAM">
+      <AppModuleConfig name="ImpotcontribuableAMLocal" jbo.project="model.Model" ApplicationName="model.AM.ImpotcontribuableAM" DeployPlatform="LOCAL">
+         <Database jbo.TypeMapEntries="OracleApps"/>
+         <Security AppModuleJndiName="model.AM.ImpotcontribuableAM"/>
+         <Custom ns0:JDBCDataSource="java:comp/env/jdbc/Connection1DS" xmlns:ns0="http://xmlns.oracle.com/bc4j/configuration"/>
+      </AppModuleConfig>
+      <AppModuleConfig name="ImpotcontribuableAMShared" jbo.project="model.Model" ApplicationName="model.AM.ImpotcontribuableAM" DeployPlatform="LOCAL">
+         <AM-Pooling jbo.ampool.maxpoolsize="1" jbo.ampool.isuseexclusive="false"/>
+         <Database jbo.TypeMapEntries="OracleApps"/>
+         <Security AppModuleJndiName="model.AM.ImpotcontribuableAM"/>
+         <Custom ns0:JDBCDataSource="java:comp/env/jdbc/Connection1DS" xmlns:ns0="http://xmlns.oracle.com/bc4j/configuration"/>
+      </AppModuleConfig>
+   </AppModuleConfigBag>
 </BC4JConfig>
