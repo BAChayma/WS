@@ -33,9 +33,9 @@ public class ContribuableUserWS {
             ContribuableUser list = new ContribuableUser();
             List<ContribuableUser> ListWS = new ArrayList<ContribuableUser>();
             ApplicationModuleImpl appModule = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.contribuableUserAM, this.contribuableUserAM_CONFIG);
-            String req = " select cu.KContribuableUser , cu.kuser , cu.kcnc , c.nif\n" + 
-            "from ContribuableUser cu , Contribuable c\n" + 
-            "where cu.kcnc = c.kcnc ";
+            String req = " select cu.KContribuableUser , cu.kuser , cu.kcnc , c.nif , c.nomCommerciale,c.raisonSociale,c.registreCommerce , fj.libellefj , ae.libelleae \n" + 
+            "from ContribuableUser cu , Contribuable c , FormeJuridique fj , ActiviteEntreprise ae\n" + 
+            "where cu.kcnc = c.kcnc and c.kformjuri = fj.kformjuri and c.kcnc = ae.kcnc ";
             PreparedStatement createPreparedStatement = appModule.getDBTransaction().createPreparedStatement (""+req,0);
             ResultSet resultSet = null;
             try {
@@ -57,6 +57,11 @@ public class ContribuableUserWS {
            user.setKcnc(resultSet.getInt("kcnc"));
            user.setKuser(resultSet.getInt("kuser"));
            user.setNif(resultSet.getString("nif"));
+           user.setNomCommerciale(resultSet.getString("nomCommerciale"));
+           user.setRaisonSociale(resultSet.getString("raisonSociale"));
+           user.setRegistreCommerce(resultSet.getString("registreCommerce"));
+           user.setLibellefj(resultSet.getString("libelleFJ"));
+           user.setLibelleae(resultSet.getString("libelleAE"));
            return user;
        }
     
