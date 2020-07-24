@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import model.VO.AdresseVOImpl;
+import model.VO.ContribuableVOImpl;
+
 import oracle.jbo.JboException;
 import oracle.jbo.server.ApplicationModuleImpl;
 import oracle.jbo.server.DBTransaction;
@@ -28,24 +31,24 @@ public class ContribuableAMImpl extends ApplicationModuleImpl {
      * Container's getter for ContribuableVO1.
      * @return ContribuableVO1
      */
-    public ViewObjectImpl getContribuableVO1() {
-        return (ViewObjectImpl) findViewObject("ContribuableVO1");
+    public ContribuableVOImpl getContribuableVO1() {
+        return (ContribuableVOImpl) findViewObject("ContribuableVO1");
     }
 
     /**
      * Container's getter for AdresseVO1.
      * @return AdresseVO1
      */
-    public ViewObjectImpl getAdresseVO1() {
-        return (ViewObjectImpl) findViewObject("AdresseVO1");
+    public AdresseVOImpl getAdresseVO1() {
+        return (AdresseVOImpl) findViewObject("AdresseVO1");
     }
 
     /**
      * Container's getter for ContribuableVO2.
      * @return ContribuableVO2
      */
-    public ViewObjectImpl getContribuableVO2() {
-        return (ViewObjectImpl) findViewObject("ContribuableVO2");
+    public ContribuableVOImpl getContribuableVO2() {
+        return (ContribuableVOImpl) findViewObject("ContribuableVO2");
     }
 
     /**
@@ -60,8 +63,8 @@ public class ContribuableAMImpl extends ApplicationModuleImpl {
      * Container's getter for ContribuableVO3.
      * @return ContribuableVO3
      */
-    public ViewObjectImpl getContribuableVO3() {
-        return (ViewObjectImpl) findViewObject("ContribuableVO3");
+    public ContribuableVOImpl getContribuableVO3() {
+        return (ContribuableVOImpl) findViewObject("ContribuableVO3");
     }
 
     /**
@@ -110,6 +113,70 @@ public class ContribuableAMImpl extends ApplicationModuleImpl {
         }
         
         return result;
+    }
+
+    /**
+     * Container's getter for ComptebancaireVO2.
+     * @return ComptebancaireVO2
+     */
+    public ViewObjectImpl getComptebancaireVO2() {
+        return (ViewObjectImpl) findViewObject("ComptebancaireVO2");
+    }
+
+    /**
+     * Container's getter for ContriCbVl1.
+     * @return ContriCbVl1
+     */
+    public ViewLinkImpl getContriCbVl1() {
+        return (ViewLinkImpl) findViewLink("ContriCbVl1");
+    }
+
+    /**
+     * Container's getter for DeclarationVO1.
+     * @return DeclarationVO1
+     */
+    public ViewObjectImpl getDeclarationVO1() {
+        return (ViewObjectImpl) findViewObject("DeclarationVO1");
+    }
+
+    /**
+     * Container's getter for ContriDecVL1.
+     * @return ContriDecVL1
+     */
+    public ViewLinkImpl getContriDecVL1() {
+        return (ViewLinkImpl) findViewLink("ContriDecVL1");
+    }
+
+    /**
+     * Container's getter for ReclamationVO1.
+     * @return ReclamationVO1
+     */
+    public ViewObjectImpl getReclamationVO1() {
+        return (ViewObjectImpl) findViewObject("ReclamationVO1");
+    }
+
+    /**
+     * Container's getter for ContriRecVL1.
+     * @return ContriRecVL1
+     */
+    public ViewLinkImpl getContriRecVL1() {
+        return (ViewLinkImpl) findViewLink("ContriRecVL1");
+    }
+
+    /**
+     * Container's getter for ImpotcontribuableVO1.
+     * @return ImpotcontribuableVO1
+     */
+    public ViewObjectImpl getImpotcontribuableVO1() {
+        return (ViewObjectImpl) findViewObject("ImpotcontribuableVO1");
+    }
+
+    /**
+     * Container's getter for ContriImpotVL1.
+     * @return ContriImpotVL1
+     */
+    public ViewLinkImpl getContriImpotVL1() {
+        return (ViewLinkImpl) findViewLink("ContriImpotVL1");
     }
 }
 

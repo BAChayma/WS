@@ -1,5 +1,11 @@
 package WS;
 
+import com.tangosol.dev.assembler.Lvar;
+
+import java.awt.event.ActionEvent;
+
+import java.math.BigDecimal;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -40,6 +46,7 @@ import java.text.ParseException;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.ListIterator;
 import java.util.Map;
 
 import java.util.Set;
@@ -47,11 +54,21 @@ import java.util.Set;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
+import model.AM.ContribuableAMImpl;
+
 import model.Data.ActiviteEntreprise;
 import model.Data.Adresse;
 import model.Data.CompteBancaire;
 import model.Data.ConsulterDossierContribuable;
 import model.Data.InfoContribuable;
+
+import model.VO.AdresseVOImpl;
+import model.VO.ContribuableVOImpl;
+
+import oracle.adf.model.BindingContext;
+import oracle.adf.model.OperationBinding;
+
+import oracle.jbo.RowSet;
 
 
 @Path("/contribuableWs")
@@ -60,6 +77,155 @@ public class ContribuableWS {
     
     public static final String contribuableAM = "model.AM.ContribuableAM";
     public static final String contribuableAM_CONFIG = "ContribuableAMLocal";
+    
+    public static final String tabAM = "model.AM.AdresseAM";
+    public static final String tabAM_CONFIG = "AdresseAMLocal";
+    
+    public static final String CompteBancaieAM = "model.AM.ComptebancaireAM";
+    public static final String CompteBancaieAM_CONFIG = "ComptebancaireAMLocal";
+    
+    ContribuableAMImpl appModule1 = (ContribuableAMImpl)Configuration.createRootApplicationModule(this.contribuableAM, this.contribuableAM_CONFIG);
+    
+    public void setBindVarAndExceuteLov(Integer deptId){
+       ContribuableVOImpl     contribuablevo =(ContribuableVOImpl) appModule1.getContribuableVO1();
+           contribuablevo.setNamedWhereClauseParam("bvnif", deptId);
+           contribuablevo.executeQuery();
+       }
+    
+    public OperationBinding getBindings(String binding){
+           return (OperationBinding) BindingContext.getCurrent().getCurrentBindingsEntry().getOperationBinding(binding);
+       }
+       
+    @GET
+    @Produces("application/json")
+    @Path("/RechercheContribuable/")
+    public List<ConsulterDossierContribuable>  RechercheContribuable (@QueryParam("nif") String nif) {
+        System.out.println("RechercheContribuable ");
+        ConsulterDossierContribuable user = new ConsulterDossierContribuable();
+        Adresse user1 = new Adresse();
+        
+        List<ConsulterDossierContribuable> ListContriWS = new ArrayList<ConsulterDossierContribuable>();
+        List<Adresse> ListAdrWS = new ArrayList<Adresse>();
+        List<CompteBancaire> ListCbWS = new ArrayList<CompteBancaire>();
+        
+        ContribuableVOImpl     contribuablevo =(ContribuableVOImpl) appModule1.getContribuableVO1();
+        AdresseVOImpl     adrvo =(AdresseVOImpl) appModule1.getAdresseVO1();
+         
+        contribuablevo.setNamedWhereClauseParam("bvnif", nif);
+        contribuablevo.executeQuery();
+        System.out.println("contribuablevo "+contribuablevo.getQuery());
+         
+        Long rowcount = contribuablevo.getEstimatedRowCount();
+       // while (rowcount > 0) {
+            for (Row rContri : contribuablevo.getAllRowsInRange() ) {
+                user.setNomCommerciale((String) rContri.getAttribute("Nomcommerciale"));
+                user.setRaisonSociale((String) rContri.getAttribute("Raisonsociale"));
+                user.setRegistreCommerce((String) rContri.getAttribute("Registrecommerce"));
+                user.setDateDebExp((Date) rContri.getAttribute("Datedebexp"));
+                //user.setCapitalSociale( rContri.getAttribute("Capitalsociale"));
+                ListContriWS.add(user);
+                
+                for (Row rAdr : adrvo.getAllRowsInRange() ) {
+                user1.setKadresse((Integer) rAdr.getAttribute("Kadresse"));
+                user1.setNumRue((Integer) rAdr.getAttribute("Numrue"));
+                user1.setRue((String) rAdr.getAttribute("Rue"));
+                user1.setCp((String) rAdr.getAttribute("Cp"));
+                ListAdrWS.add(user1);
+                    
+                    
+             System.out.println("ListAdrWS "+ ListAdrWS); 
+              
+                    
+                }
+                
+               
+                
+                user.setLadr(ListAdrWS);
+                ListContriWS.add(user);
+            } 
+         //   }
+               
+    Configuration.releaseRootApplicationModule(appModule1, true);
+ return ListContriWS;
+    
+    }
+
+    
+        @GET
+        @Produces("application/json")
+        @Path("/RechercheContribuable/")
+        public List<ConsulterDossierContribuable> RechercheContribuable1 (@QueryParam("nif") String nif) {
+            
+            //ArrayList<ConsulterDossierContribuable> al1 = new ArrayList<>();
+            ConsulterDossierContribuable user = new ConsulterDossierContribuable();
+            List<ConsulterDossierContribuable> ListContriWS = new ArrayList<ConsulterDossierContribuable>();
+            List<Adresse> ListAdrWS = new ArrayList<Adresse>();
+            List<CompteBancaire> ListCbWS = new ArrayList<CompteBancaire>();
+            
+            
+            //requete info gerenrale sur contribuable
+            ApplicationModuleImpl appModule1 = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.contribuableAM, this.contribuableAM_CONFIG);
+            String req1 = " select c.nif, c.kcnc, c.nomCommerciale,c.raisonSociale,c.registreCommerce,c.dateDebExp,c.capitalSociale,fj.libellefj , ae.libelleae , p.nationnalite \n" + 
+            "from Contribuable c , FormeJuridique fj , ActiviteEntreprise ae , Pays p  \n" + 
+            "where c.kformjuri = fj.kformjuri and c.kcnc = ae.kcnc and c.kcnc = p.kcnc and c.nif = ? " ;
+            PreparedStatement createPreparedStatement1 = appModule1.getDBTransaction().createPreparedStatement (""+req1,0);
+            
+            //requete info sur adressse contribuable
+            ApplicationModuleImpl appModule2 = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.tabAM, this.tabAM_CONFIG);
+            String req2 = " select adr.kadresse, adr.numrue , adr.rue , adr.cp , sadr.libellesadr , tsadr.libelletsadr \n" + 
+            "from adresse adr , structureadr sadr , typestructureadr tsadr , Contribuable c \n" + 
+            "where sadr.ktstructureadr = tsadr.ktstructureadr and adr.kstructureadr = sadr.kstructureadr and c.kcnc = adr.kcnc and c.nif = ? " ;
+            PreparedStatement createPreparedStatement2 = appModule2.getDBTransaction().createPreparedStatement (""+req2,0);
+            
+            //requete info sur cb contribuable
+            ApplicationModuleImpl appModule3 = (ApplicationModuleImpl)Configuration.createRootApplicationModule(this.CompteBancaieAM, this.CompteBancaieAM_CONFIG);
+            String req3 = " select cb.kcompte, cb.rib , b.nombanque , a.libelleagence \n" + 
+            "from Contribuable c ,comptebancaire cb , banque b , agence a \n" + 
+            "where c.kcnc = cb.kcnc and cb.kbanque = b.kbanque and cb.kagence = a.kagence and c.nif = ? " ;
+            PreparedStatement createPreparedStatement3 = appModule3.getDBTransaction().createPreparedStatement (""+req3,0);
+            
+            ResultSet resultSet = null;
+
+            try {
+                createPreparedStatement1.setString(1, nif);  
+                resultSet = createPreparedStatement1.executeQuery();
+                
+                createPreparedStatement2.setString(1, nif);  
+                resultSet = createPreparedStatement2.executeQuery();
+                
+                createPreparedStatement3.setString(1, nif);  
+                resultSet = createPreparedStatement3.executeQuery();
+                
+                int taille1 = ListAdrWS.size();
+                int taille2 = ListCbWS.size();
+                
+                while (resultSet.next()) {
+                    ListContriWS.add(mapContri(resultSet));
+                    for (int i=0;i<=taille1;i++){
+                        ListAdrWS.add(mapAdr(resultSet));
+                    }
+                    for (int i=0;i<=taille2;i++){
+                        ListCbWS.add(mapCB(resultSet));
+                    }
+                }
+                
+                user.setLadr(ListAdrWS);
+                user.setLcb( ListCbWS);
+                ListContriWS.add(user);
+                
+                
+            }
+            catch(SQLException e) {
+                e.printStackTrace();
+            }
+            
+        Configuration.releaseRootApplicationModule(appModule1, true);
+        Configuration.releaseRootApplicationModule(appModule2, true);
+        Configuration.releaseRootApplicationModule(appModule3, true);
+        return ListContriWS;
+        }
+        
+   
     
     /*@GET
     @Produces("application/json")
@@ -281,7 +447,7 @@ public class ContribuableWS {
         return contriWS;
     }
     
-   /* private static Adresse mapAdr(ResultSet resultSet) throws SQLException {
+     private static Adresse mapAdr(ResultSet resultSet) throws SQLException {
            Adresse user = new Adresse();
            user.setKadresse(resultSet.getInt("kadresse"));
            user.setNumRue(resultSet.getInt("numRue"));
@@ -289,6 +455,15 @@ public class ContribuableWS {
            user.setCp(resultSet.getString("cp"));
            user.setLibellesadr(resultSet.getString("libellesadr"));
            user.setLibelletsadr(resultSet.getString("libelletsadr"));
+           return user;
+       }
+    
+    private static CompteBancaire mapCB(ResultSet resultSet) throws SQLException {
+           CompteBancaire user = new CompteBancaire();
+           user.setKcompte(resultSet.getInt("kcompte"));
+           user.setRib(resultSet.getString("rib"));
+           user.setNomBanque(resultSet.getString("nomBanque"));
+           user.setLibelleAgence(resultSet.getString("libelleAgence"));
            return user;
        }
     
@@ -304,125 +479,6 @@ public class ContribuableWS {
            user.setNationnalite(resultSet.getString("nationnalite"));
            return user;
     }
-    
-    
-    
-    private static List<ConsulterDossierContribuable>  map(ResultSet resultSet) throws SQLException {
-        
-           ConsulterDossierContribuable user = new ConsulterDossierContribuable();
-           ArrayList<ConsulterDossierContribuable> al1 = new ArrayList<>();
-           user.setNomCommerciale(resultSet.getString("nomCommerciale"));
-           user.setRaisonSociale(resultSet.getString("raisonSociale"));
-           user.setRegistreCommerce(resultSet.getString("registreCommerce"));
-           user.setDateDebExp(resultSet.getDate("dateDebExp"));
-           user.setCapitalSociale(resultSet.getDouble("capitalSociale"));
-           user.setLibellefj(resultSet.getString("libelleFJ"));
-           user.setLibelleae(resultSet.getString("libelleAE"));
-           user.setNationnalite(resultSet.getString("nationnalite"));
-           al1.add(user);
-           ArrayList<ConsulterDossierContribuable> contriList = new ArrayList<>(Arrays.asList(user));
-           
-           Adresse user1 = new Adresse(); 
-           ArrayList<Adresse> al2 = new ArrayList<>();
-           user1.setKadresse(resultSet.getInt("kadresse"));
-           user1.setKadresse(resultSet.getInt("kadresse"));
-           user1.setNumRue(resultSet.getInt("numRue"));
-           user1.setRue(resultSet.getString("rue"));
-           user1.setCp(resultSet.getString("cp"));
-           user1.setLibellesadr(resultSet.getString("libellesadr"));
-           user1.setLibelletsadr(resultSet.getString("libelletsadr"));
-           al2.add(user1);
-           ArrayList<Adresse> adrList = new ArrayList<>(Arrays.asList(user1));
-           
-           CompteBancaire user2 = new CompteBancaire();
-           ArrayList<CompteBancaire> al3 = new ArrayList<>();
-           user2.setKcompte(resultSet.getInt("kcompte"));
-           user2.setRib(resultSet.getString("rib"));
-           user2.setNomBanque(resultSet.getString("nomBanque"));
-           user2.setLibelleAgence(resultSet.getString("libelleAgence"));
-           al3.add(user2);
-           ArrayList<CompteBancaire> cbList = new ArrayList<>(Arrays.asList(user2));
-           
-           //user.setLadr(adrList);
-           //user.setLcb( cbList);
-           al1.add(user);
-        
-          /* ArrayList<ConsulterDossierContribuable> ListWS = new ArrayList<ConsulterDossierContribuable>();
-           List<ArrayList<ConsulterDossierContribuable>> listOfLists = new ArrayList<ArrayList<ConsulterDossierContribuable>>();
-           
-           ConsulterDossierContribuable user = new ConsulterDossierContribuable();
-           user.setNomCommerciale(resultSet.getString("nomCommerciale"));
-           user.setRaisonSociale(resultSet.getString("raisonSociale"));
-           user.setRegistreCommerce(resultSet.getString("registreCommerce"));
-           user.setDateDebExp(resultSet.getDate("dateDebExp"));
-           user.setCapitalSociale(resultSet.getDouble("capitalSociale"));
-           user.setLibellefj(resultSet.getString("libelleFJ"));
-           user.setLibelleae(resultSet.getString("libelleAE"));
-           user.setNationnalite(resultSet.getString("nationnalite"));
-                     
-           List<ArrayList<Adresse>> listOfLists1 = new ArrayList<ArrayList<Adresse>>(); 
-           ArrayList<Adresse> ListADR = new ArrayList<Adresse>();
-           Adresse user1 = new Adresse(); 
-           Set <Adresse> adresseSet = new HashSet<>();
-           user1.setKadresse(resultSet.getInt("kadresse"));
-           user1.setKadresse(resultSet.getInt("kadresse"));
-           user1.setNumRue(resultSet.getInt("numRue"));
-           user1.setRue(resultSet.getString("rue"));
-           user1.setCp(resultSet.getString("cp"));
-           user1.setLibellesadr(resultSet.getString("libellesadr"));
-           user1.setLibelletsadr(resultSet.getString("libelletsadr"));
-           adresseSet.add(user1);
-           
-           List<ArrayList<CompteBancaire>> listOfLists2 = new ArrayList<ArrayList<CompteBancaire>>(); 
-           ArrayList<CompteBancaire> ListCB = new ArrayList<CompteBancaire>();
-           CompteBancaire user2 = new CompteBancaire();
-           user2.setKcompte(resultSet.getInt("kcompte"));
-           user2.setRib(resultSet.getString("rib"));
-           user2.setNomBanque(resultSet.getString("nomBanque"));
-           user2.setLibelleAgence(resultSet.getString("libelleAgence"));
-        
-           ListADR.add(user1);
-           ListCB.add(user2);
-           
-           user.setLadr(ListADR);
-           user.setLcb( ListCB);
-           
-           ListWS.add(user);
-           
-           ListWS.retainAll(ListADR);
-           ListWS.retainAll(ListCB);
-           
-           return  al1; user;
-       }
-    
-    /*private static ConsulterDossierContribuable map(ResultSet resultSet) throws SQLException {
-           ConsulterDossierContribuable user = new ConsulterDossierContribuable();
-           user.setNomCommerciale(resultSet.getString("nomCommerciale"));
-           user.setRaisonSociale(resultSet.getString("raisonSociale"));
-           user.setRegistreCommerce(resultSet.getString("registreCommerce"));
-           user.setDateDebExp(resultSet.getDate("dateDebExp"));
-           user.setCapitalSociale(resultSet.getDouble("capitalSociale"));
-           user.setLibellefj(resultSet.getString("libelleFJ"));
-           user.setLibelleae(resultSet.getString("libelleAE"));
-           user.setNationnalite(resultSet.getString("nationnalite"));
-           user.setKcompte(resultSet.getInt("kcompte"));
-           user.setRib(resultSet.getString("rib"));
-           user.setNombanque(resultSet.getString("nomBanque"));
-           user.setLibelleagence(resultSet.getString("libelleAgence"));
-           user.setIdentifiant(resultSet.getString("identifiant"));
-           user.setNom(resultSet.getString("nom"));
-           user.setPrenom(resultSet.getString("prenom"));
-           user.setKadresse(resultSet.getInt("kadresse"));
-           user.setNumRue(resultSet.getInt("numRue"));
-           user.setRue(resultSet.getString("rue"));
-           user.setCp(resultSet.getString("cp"));
-           //user.setKStructureAdr(resultSet.getInt("kStructureAdr"));
-           user.setLibellesadr(resultSet.getString("libellesadr"));
-           //user.setKTStructureAdr(resultSet.getInt("kTStructureAdr"));
-           user.setLibelletsadr(resultSet.getString("libelletsadr"));
-           return user;
-       }*/
-   
     
     
    

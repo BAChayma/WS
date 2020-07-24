@@ -29,38 +29,39 @@ public class ConsulterDossierContribuable {
     private String nom;
     private String prenom;
 
-    /*private ArrayList<Adresse> Ladr;
+    private List<Adresse> Ladr;
     private List<CompteBancaire> Lcb;
-    private List<Personne> Lact;*/
+    private List<Personne> Lact;
     
-    private List<List<Adresse>> Ladr ;
+    /*private List<List<Adresse>> Ladr ;
     private List<List<CompteBancaire>> Lcb ;
-    private List<List<Personne>> Lact ;
+    private List<List<Personne>> Lact ;*/
 
 
-    public void setLadr(List<List<Adresse>> Ladr) {
+    public void setLadr(List<Adresse> Ladr) {
         this.Ladr = Ladr;
     }
 
-    public List<List<Adresse>> getLadr() {
+    public List<Adresse> getLadr() {
         return Ladr;
     }
 
-    public void setLcb(List<List<CompteBancaire>> Lcb) {
+    public void setLcb(List<CompteBancaire> Lcb) {
         this.Lcb = Lcb;
     }
 
-    public List<List<CompteBancaire>> getLcb() {
+    public List<CompteBancaire> getLcb() {
         return Lcb;
     }
 
-    public void setLact(List<List<Personne>> Lact) {
+    public void setLact(List<Personne> Lact) {
         this.Lact = Lact;
     }
 
-    public List<List<Personne>> getLact() {
+    public List<Personne> getLact() {
         return Lact;
     }
+
 
     //private List<ConsulterDossierContribuable> Lcontribuables;
 

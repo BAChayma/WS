@@ -10,9 +10,19 @@
   FromListFlags="1"
   WhereFlags="1"
   BindingStyle="OracleName"
-  CustomQuery="false"
   SelectAllAttributes="false"
-  PageIterMode="Full">
+  PageIterMode="Full"
+  CustomQuery="false"
+  RowClass="model.VO.ContribuableVORowImpl"
+  ComponentClass="model.VO.ContribuableVOImpl">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Coll|VarAccess"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Variable
+    Name="bvnif"
+    Kind="where"
+    Type="java.lang.String"/>
   <EntityUsage
     Name="ContribuableEO"
     Entity="model.EO.ContribuableEO"/>
@@ -113,4 +123,51 @@
     ViewLink="model.VO.SysC0015657Link"
     Type="oracle.jbo.RowIterator"
     IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="AdresseVO1"
+    ViewLink="model.VL.ContriAdrVL"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="ComptebancaireVO1"
+    ViewLink="model.VL.ContriCbVl"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="DeclarationVO1"
+    ViewLink="model.VL.ContriDecVL"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="ReclamationVO1"
+    ViewLink="model.VL.ContriRecVL"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="ImpotcontribuableVO1"
+    ViewLink="model.VL.ContriImpotVL"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <DeclarativeWhereClause
+    Name="DeclarativeWhereClause">
+    <ViewCriteria
+      Name="ContribuableVOWhereCriteria"
+      ViewObjectName="model.VO.ContribuableVO"
+      Conjunction="AND"
+      Mode="3">
+      <ViewCriteriaRow
+        Name="ContribuableVOWhereCriteria_row_0"
+        UpperColumns="1">
+        <ViewCriteriaItem
+          Name="Nif"
+          ViewAttribute="Nif"
+          Operator="="
+          Conjunction="AND"
+          Required="Optional"
+          Value=":bvnif"
+          GenerateIsNullClauseForBindVars="false"
+          IsBindVarValue="true"/>
+      </ViewCriteriaRow>
+    </ViewCriteria>
+  </DeclarativeWhereClause>
 </ViewObject>

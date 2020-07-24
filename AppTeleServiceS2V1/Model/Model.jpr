@@ -255,7 +255,19 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <url n="id" protocol="file" path="/C:/Users/chayma/AppData/Roaming/JDeveloper/system12.1.3.0.41.170120.1047/o.jdeveloper/CROS.library"/>
+            <value n="id" v="Resource Bundle Support"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="ADF Common Runtime"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Cors-filter-2.6.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Java-property-utils-1.9.1.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
@@ -342,6 +354,24 @@
                <value n="id" v="Jsr311-api-1.1.1.jar"/>
                <value n="locked" v="true"/>
             </hash>
+            <hash>
+               <list n="classPath">
+                  <url protocol="jar" path="file:/C:/Users/chayma/Desktop/jarCros/cors-filter-2.6.jar!/"/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Cors-filter-2.6.jar"/>
+               <value n="id" v="Cors-filter-2.6.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url protocol="jar" path="file:/C:/Users/chayma/Desktop/jarCros/java-property-utils-1.9.1.jar!/"/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Java-property-utils-1.9.1.jar"/>
+               <value n="id" v="Java-property-utils-1.9.1.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
          </list>
       </hash>
       <list n="libraryReferences">
@@ -410,7 +440,19 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <url n="id" protocol="file" path="/C:/Users/chayma/AppData/Roaming/JDeveloper/system12.1.3.0.41.170120.1047/o.jdeveloper/CROS.library"/>
+            <value n="id" v="Resource Bundle Support"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="ADF Common Runtime"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Cors-filter-2.6.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Java-property-utils-1.9.1.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>

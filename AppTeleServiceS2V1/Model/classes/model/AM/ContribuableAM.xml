@@ -29,6 +29,18 @@
   <ViewUsage
     Name="ActiviteentrepriseVO1"
     ViewObjectName="model.VO.ActiviteentrepriseVO"/>
+  <ViewUsage
+    Name="ComptebancaireVO2"
+    ViewObjectName="model.VO.ComptebancaireVO"/>
+  <ViewUsage
+    Name="DeclarationVO1"
+    ViewObjectName="model.VO.DeclarationVO"/>
+  <ViewUsage
+    Name="ReclamationVO1"
+    ViewObjectName="model.VO.ReclamationVO"/>
+  <ViewUsage
+    Name="ImpotcontribuableVO1"
+    ViewObjectName="model.VO.ImpotcontribuableVO"/>
   <ViewLinkUsage
     Name="SysC0014181Link"
     ViewLinkObjectName="model.VO.SysC0014181Link"
@@ -46,5 +58,29 @@
     ViewLinkObjectName="model.VO.SysC0014177Link"
     SrcViewUsageName="model.AM.ContribuableAM.ContribuableVO3"
     DstViewUsageName="model.AM.ContribuableAM.ActiviteentrepriseVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="ContriCbVl1"
+    ViewLinkObjectName="model.VL.ContriCbVl"
+    SrcViewUsageName="model.AM.ContribuableAM.ContribuableVO1"
+    DstViewUsageName="model.AM.ContribuableAM.ComptebancaireVO2"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="ContriDecVL1"
+    ViewLinkObjectName="model.VL.ContriDecVL"
+    SrcViewUsageName="model.AM.ContribuableAM.ContribuableVO1"
+    DstViewUsageName="model.AM.ContribuableAM.DeclarationVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="ContriRecVL1"
+    ViewLinkObjectName="model.VL.ContriRecVL"
+    SrcViewUsageName="model.AM.ContribuableAM.ContribuableVO1"
+    DstViewUsageName="model.AM.ContribuableAM.ReclamationVO1"
+    Reversed="false"/>
+  <ViewLinkUsage
+    Name="ContriImpotVL1"
+    ViewLinkObjectName="model.VL.ContriImpotVL"
+    SrcViewUsageName="model.AM.ContribuableAM.ContribuableVO1"
+    DstViewUsageName="model.AM.ContribuableAM.ImpotcontribuableVO1"
     Reversed="false"/>
 </AppModule>
